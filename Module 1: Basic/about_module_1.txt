@@ -1,0 +1,34 @@
+Module 1 is for the provision of:
+> An oversight of income and expenses
+> Categorization of income and expenses
+> Display of the state of a goal
+> Structuring spending capacity
+
+(Full functionality requires a server-side and a client-side.)
+
+There are the following pages:
+> Summaries
+- Expenditures
+- Categorization
+- Goals
+- Budget
+- Settings
+
+And there are the following classes:
+> Session
+> ExpendituresSum
+- Income
+- Expense
+> Category
+> Goal
+- Goal1
+- Goal2
+- Goal3
+> Budgets
+- SpendingCapacity
+- NormalBudget
+- SubBudget1
+- SubBudget2
+- SubBudget3
+
+In module 1, some customizable features are hard-coded. Full customization comes in module 2. 
