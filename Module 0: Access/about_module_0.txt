@@ -1,0 +1,1 @@
+Adminique its modules are accessed via the Blazor framework. Data is displayed and transferred via iframes in javascript. 
