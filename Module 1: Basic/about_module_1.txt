@@ -16,7 +16,8 @@ There are the following pages:
 
 And there are the following classes:
 > Session
-> ExpendituresSum
+> TotalBalance
+- AlphaBalance
 - Income
 - Expense
 > Category
@@ -31,4 +32,4 @@ And there are the following classes:
 - SubBudget2
 - SubBudget3
 
-In module 1, some customizable features are hard-coded. Full customization comes in module 2. 
+In module 1, some customizable features are hard-coded. Full customization comes in module 4. 
