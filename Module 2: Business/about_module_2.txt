@@ -1,0 +1,2 @@
+--- You might be wondering: "Why is "Business" before "Family"?" ---
+In the context of the modules of Adminique, "Business" comes before "Family", because one's business administration could be subject to one's profile as member of a family.  
