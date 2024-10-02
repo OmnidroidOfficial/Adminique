@@ -1,17 +1,24 @@
 Module 1 is for the provision of:
 > An oversight of income and expenses
 > Categorization of income and expenses
-> Display of the state of a goal
+> Display of the state of a balance-related goal
 > Structuring spending capacity
+> Periodic interviews
 
 (Full functionality requires a server-side and a client-side.)
 
 There are the following pages:
-> Summaries
-- Expenditures
+> Summary
+- Balance
 - Categorization
 - Goals
-- Budget
+- Budgets
+- Interviews
+* InterviewAlpha
+* InterviewBeta
+* InterviewGamma
+* InterviewDelta
+* InterviewEpsilon
 - Settings
 
 And there are the following classes:
@@ -25,11 +32,13 @@ And there are the following classes:
 - Goal1
 - Goal2
 - Goal3
-> Budgets
+> Budget
 - SpendingCapacity
 - NormalBudget
 - SubBudget1
 - SubBudget2
 - SubBudget3
+> Interview
+> Setting
 
 In module 1, some customizable features are hard-coded. Full customization comes in module 4. 
