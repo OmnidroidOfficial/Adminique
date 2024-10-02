@@ -1,0 +1,1 @@
+Custom modules are configured by definition of references to the pages that are referred to via one's private subdomain. 
