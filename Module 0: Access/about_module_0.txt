@@ -1,1 +1,4 @@
 Adminique its modules are accessed via the Blazor framework. Data is displayed and transferred via iframes in javascript. 
+
+--- oct 4, 2024 --- 
+Adminique Beta 1.0 will not contain (customizable) modules.
