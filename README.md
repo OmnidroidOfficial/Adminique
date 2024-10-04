@@ -6,5 +6,5 @@ Currently, the functionality of https://adminique.be is provided to you by WordP
 
 Modules committed to for Adminique Beta 1.0: 
 > Access: "The Framework"
-> Basic: "Python & PHP"
+> Basic: "Python & Node.js"
 > Custom: "Settings, Documentation"
