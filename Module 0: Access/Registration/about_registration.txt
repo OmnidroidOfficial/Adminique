@@ -1,0 +1,1 @@
+Registration is done via a PWA/Blazor WebAssembly application that is independently hosted on a subdomain.
