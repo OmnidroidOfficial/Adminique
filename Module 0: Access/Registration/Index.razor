@@ -1,0 +1,18 @@
+@page "/"
+@inject NavigationManager NM;
+
+<PageTitle>Registration by Adminique</PageTitle>
+
+<div class="center">
+<h1>Registration</h1>
+<p>Complete this process of registration to <br />
+    start making use of digital budget coaching <br/>
+    by Adminique.</p>
+<button onclick="@C1">Start</button>
+</div>
+@code{
+    public void C1()
+    {
+        NM.NavigateTo("/select-country");
+    }
+}
