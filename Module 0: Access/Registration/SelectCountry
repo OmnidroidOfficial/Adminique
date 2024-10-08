@@ -1,0 +1,69 @@
+@page "/select-country";
+@inject NavigationManager NM;
+
+<div class="center">
+<h2>Select Your Country of Citizenship</h2>
+<button @onclick="@Help">Help</button><br/>
+</div>
+<div class="center">
+<select @onchange="@ChangeCountry">
+    <option value="AFG">Afghanistan</option>
+    <option value="ALB">Albania</option>
+    <option value="DZA">Algeria</option>
+    <option value="ASM">American Samoa</option>
+    <option value="AND">Andorra</option>
+    <option value="AGO">Angola</option>
+    <option value="AIA">Anguilla</option>
+    <option value="ATA">Antartica</option>
+    <option value="ARG">Argentina</option>
+    <option value="ARM">Armenia</option>
+    <option value="ABW">Aruba</option>
+    <option value="AUS">Australia</option>
+    <option value="AUT">Austria</option>
+    <option value="AZE">Azerbaijan</option>
+    <option value="BHS">The Bahamas</option>
+    <option value="BHR">Bahrain</option>
+    <option value="BGD">Bangladesh</option>
+    <option value="BRB">Barbados</option>
+</select>
+<p class="accent-tiny">@User.SelectedCountry</p>
+<p class="accent-tiny">@HelpText</p>
+</div>
+
+<div class="center">
+<button @onclick="@ToGender">Next</button><br/>
+<button @onclick="@ToIndex">Return</button>
+</div>
+@code {
+    static public string HelpText { get; set; } = "";
+    public void ToGender()
+    {
+        if (User.SelectedCountry is not null)
+        {
+            NM.NavigateTo("/select-gender");
+        }
+        else
+        {
+            HelpText = "Please select your country of citizenship.";
+        }
+    }
+
+    public void ToIndex()
+    {
+        NM.NavigateTo("/");
+    }
+
+    public void Help()
+    {
+        NM.NavigateTo("/help-select-country");
+    }
+
+    static public void ChangeCountry(ChangeEventArgs e)
+    {
+        if (e.Value is not null)
+        {
+            User.SelectedCountry = (string)e.Value;
+            HelpText = "";
+        }
+    }
+}
