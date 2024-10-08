@@ -26,7 +26,7 @@
     <option value="BGD">Bangladesh</option>
     <option value="BRB">Barbados</option>
 </select>
-<p class="accent-tiny">@User.SelectedCountry</p>
+<p class="accent-tiny">@User.Country</p>
 <p class="accent-tiny">@HelpText</p>
 </div>
 
@@ -38,7 +38,7 @@
     static public string HelpText { get; set; } = "";
     public void ToGender()
     {
-        if (User.SelectedCountry is not null)
+        if (User.Country is not null)
         {
             NM.NavigateTo("/select-gender");
         }
@@ -62,7 +62,7 @@
     {
         if (e.Value is not null)
         {
-            User.SelectedCountry = (string)e.Value;
+            User.Country = (string)e.Value;
             HelpText = "";
         }
     }
