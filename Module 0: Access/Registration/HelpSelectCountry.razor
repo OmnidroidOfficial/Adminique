@@ -1,0 +1,19 @@
+@page "/help-select-country";
+@inject NavigationManager NM;
+
+<h2>"Which Country Should I Select?"</h2>
+<p>Select the country which you are a citizen of.</p>
+
+<h3>> Example 1</h3>
+<p><b>Individual X is a citizen of country A and temporarily works and lives in country B.</b></p>
+<p>Individual X selects country A.</p>
+
+<h3>> Example 2</h3>
+
+<button @onclick="@Return">Return</button>
+@code {
+    public void Return()
+    {
+        NM.NavigateTo("/select-country");
+    }
+}
