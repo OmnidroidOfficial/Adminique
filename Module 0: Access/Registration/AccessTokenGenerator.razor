@@ -1,0 +1,30 @@
+@page "/generator"
+@inject NavigationManager NM;
+<div class="center">
+<h2>Access Token Generator</h2>
+</div>
+
+<div class="center">
+    <button>Help</button>
+    <p>The "Access Token" is a personal <br/>
+        shortcode. Your e-mail address <br/>
+        is associated with it. Create <br/>
+        a token of access only once.</p>
+    <button @onclick="@IniGenerator">Continue</button>
+    <button @onclick="@ToGender">Return</button>
+</div>
+
+@code {
+
+    public void IniGenerator()
+    {
+        Generator.GenerateAccessToken();
+        NM.NavigateTo("/display-token");
+    }
+
+    public void ToGender()
+    {
+        NM.NavigateTo("/select-gender");
+    }
+
+}
