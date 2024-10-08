@@ -1,0 +1,68 @@
+@page "/select-gender"
+@inject NavigationManager NM;
+
+<div class="center">
+<h3>Select Your Gender</h3>
+<button>Help</button>
+</div>
+<div class="center">
+<select @onchange="@ChangeGender">
+    <option value="Female">Female</option>
+    <option value="Male">Male</option>
+    <option value="Non-binary">Non-binary</option>
+</select>
+<p class="accent-tiny">@Gender</p>
+<p class="accent-tiny">@HelpText</p>
+</div>
+<div class="center">
+    <button @onclick="@ToGenerator">Next</button>
+    <button @onclick="@ToCountry">Return</button>
+</div>
+@code {
+    static public string Gender { get; set; } = "";
+    static public string HelpText { get; set; } = "";
+
+    static public void SetGender()
+    {
+        switch (Gender)
+        {
+            case "Female":
+                User.Gender = "X";
+                break;
+            case "Male":
+                User.Gender = "Y";
+                break;
+            case "Non-binary":
+                User.Gender = "Z";
+                break;
+        }
+    }
+
+    public void ToGenerator()
+    {
+
+        if (Gender is not null)
+        {
+            SetGender();
+            NM.NavigateTo("/generator");
+        }
+        else
+        {
+            HelpText = "Please select a gender.";
+        }
+    }
+
+    public void ToCountry()
+    {
+        NM.NavigateTo("/select-country");
+    }
+
+    static public void ChangeGender(ChangeEventArgs e)
+    {
+        if (e.Value is not null)
+        {
+            Gender = (string)e.Value;
+            HelpText = "";
+        }
+    }
+}
