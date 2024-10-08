@@ -1,14 +1,23 @@
 @page "/display-token";
 
 <h3>Your Access Token is...</h3>
-<input @bind="@TokenText" disabled/>
-<button>Copy Access Token</button>
+<input id="TokenText" @bind="@TokenText" disabled />
+<button onclick="CopyAccessToken()">Copy Access Token</button>
 <p>On the next page, you will be <br/>
    asked to paste your access token<br/>
    in the "Access Token" field.<br/></p>
 <button>Help</button>
 <button>Next</button>
 
+<script>
+    function CopyAccessToken()
+    {
+        var tokenString = document.getElementById("TokenText");
+        tokenString.select();
+        tokenString.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(tokenString.value);
+    }
+</script>
 
 @code {
     static public string? TokenText = Generator.AccessToken;
