@@ -1,0 +1,99 @@
+@page "/menu"
+@inject NavigationManager NM
+
+<div class="flexy" hidden="@C1">
+    <button @onclick="@X1">Administration</button>
+    <button @onclick="@X2">Analysis</button>
+    <button @onclick="@X3">Tools</button>
+    <button @onclick="@X4">Documentation</button>
+    <button @onclick="@X5">Settings</button>
+</div>
+<div hidden="@C2">
+    <h2>"The Administrator" for Business</h2>
+    <p class="accent">The Administrator is here to provide the information that suits your business needs.</p>
+    <p>Observe your organization its stock supply. Observe your organization its distribution of dividends in real-time. Observe your organization its division of capital and labor in real-time.</p>
+    <h3>The Administrator: on the Cusp of "Business" and "Personal".</h3>
+    <p>In the world of business, the size of an organization is a very remarkable feature. In terms of administration, there are infinite elements to customize. What is in the category of "Business" for you?</p>
+    <p class="accent">Would you like to share your perspective?</p>
+    <button>Learn More</button>
+</div>
+<div hidden="@C3">
+    <h2>"The Family's Administrator"</h2>
+    <p>Whether it is a brand new family, or a collective of housemates: The Administrator treats everyone like family.</p>
+    <p class="accent">Let's talk about money.</p>
+    <p>In most social settings, the subject of money is a private matter. But what if it was not?</p>
+    <p class="accent">The more openly money can be spoken of, the more closely you can function as a group.</p>
+    <p>Would you like to take charge?</p>
+    <button>Learn More</button>
+</div>
+<div class="flexy">
+    <button class="tab" @onclick="@Y1">Basic</button>
+    <button class="tab-black" @onclick="@Y2">Business</button>
+    <button class="tab-black" @onclick="@Y3">Family</button>
+</div>
+@code {
+    static public bool C1 { get; set; } = false;
+    static public bool C2 { get; set; } = true;
+    static public bool C3 { get; set; } = true;
+
+    public void X5()
+    {
+        UX.PageTitle = "Settings";
+        UX.ToMenu = true;
+        NM.NavigateTo("/settings");
+    }
+
+    public void X4()
+    {
+        UX.PageTitle = "Documentation";
+        UX.ToMenu = true;
+        NM.NavigateTo("/documentation");
+    }
+
+    public void X3()
+    {
+        UX.PageTitle = "Tools";
+        UX.ToMenu = true;
+        NM.NavigateTo("/tools");
+    }
+
+    public void X2()
+    {
+        UX.PageTitle = "Analysis";
+        UX.ToMenu = true;
+        NM.NavigateTo("/analysis");
+    }
+
+    public void X1()
+    {
+        UX.PageTitle = "Administration";
+        UX.ToMenu = true;
+        NM.NavigateTo("/administration");
+    }
+
+    static public void Y3()
+    {
+        C1 = true;
+        C2 = true;
+        C3 = false;
+    }
+
+    static public void Y2()
+    {
+        C1 = true;
+        C2 = false;
+        C3 = true;
+    }
+
+    static public void Y1()
+    {
+        C1 = false;
+        C2 = true;
+        C3 = true;
+    }
+
+    protected override void OnInitialized()
+    {
+        UX.ToMenu = false;
+    }
+}
