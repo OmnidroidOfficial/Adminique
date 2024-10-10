@@ -1,0 +1,96 @@
+@page "/the-calculator"
+
+<div class="flexy" hidden="@C1">
+    <p>@Help</p>
+    <label><b>Enter Budget</b> <br /> <input type="number" @bind="@Budget" @bind:event="oninput" required /></label>
+    <p>"The price-value of the expense that I am considering is..."</p>
+<label><b>Enter Price</b><br/> <input type="number" @bind="@Price" @bind:event="oninput" required /></label><br/>
+    <p>"Of my budget, I would like to not spend more than this percentage:"</p>
+<label><b>Enter Savings-ratio</b> <br /> <input type="number" @bind="@Ratio" @bind:event="oninput" required />%</label><br/>
+<button @onclick="@X1">Calculate</button>
+</div>
+<div class="flexy" hidden="@C2">
+    <div hidden="@C3">
+        <h2>This expense is responsible.</h2>
+        <p>In terms of finance, the share of your budget that is left after the expense is greater than 50%. So we could state that it is responsible to make the expense.</p>
+    </div>
+    <div hidden="@C4">
+        <h2>This expense could be considered as "risky".</h2>
+        <p>The expense does not dissolve your budget, but after it, there is less than 50% left of it.</p>
+    </div>
+    <div hidden="@C5">
+        <h2>This expense could be considered as not responsible.</h2>
+        <p>The expense dissolves your budget in such a way that it does not meet your savings-requirement.</p>
+    </div>
+
+    <p class="small">
+        <b>Calculation:</b><br />
+        @Ratio % of @Budget is: @Capacity <br/>
+        <i>There is @Capacity to spend.</i><br />
+        @Capacity minus @Price is: @Residual <br />
+        <i>Of the capacity (@Capacity) there is @Residual left after the expense of @Price.</i><br />
+        if @Residual is greater than 0, the expense could be considered.
+    </p>
+    <button @onclick="@X2">Return</button>
+</div>
+
+@code {
+    static public string Help { get; set; } = "";
+    static public int Share { get; set; } = 0;
+    static public int Residual { get; set; } = Capacity - Price;
+    static public int Capacity { get; set; } = Budget / 100 * Ratio;
+    static public int Price { get; set; } = 0;
+    static public int Ratio { get; set; } = 0;
+    static public int Budget { get; set; } = 0;
+    static public bool C5 { get; set; } = true;
+    static public bool C4 { get; set; } = true;
+    static public bool C3 { get; set; } = true;
+    static public bool C2 { get; set; } = true;
+    static public bool C1 { get; set; } = false;
+
+    static public void X2()
+    {
+        C1 = false;
+        C2 = true;
+    }
+
+    static public void X1()
+    {
+        if (Price is not 0)
+        {
+            Help = "";
+            Capacity = Budget / 100 * Ratio;
+            Residual = Capacity - Price;
+            if (Residual >= 0)
+            {
+                Share = (Residual / Budget) * 100;
+                switch (Share)
+                {
+                    case > 50:
+                        C3 = false;
+                        C4 = true;
+                        C5 = true;
+                        break;
+                    case <= 50:
+                        C3 = true;
+                        C4 = false;
+                        C5 = true;
+                        break;
+                }
+            }
+            else
+            {
+                C3 = true;
+                C4 = true;
+                C5 = false;
+            }
+            C1 = true;
+            C2 = false;
+        }
+        else
+        {
+            Help = "Please set the price.";
+        }
+        
+    }
+}
