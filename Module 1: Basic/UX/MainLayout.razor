@@ -1,0 +1,28 @@
+@inherits LayoutComponentBase
+@inject NavigationManager NM;
+
+<main>
+    <div class="header">
+        <h1>@UX.PageTitle</h1>
+    </div>
+    <div class="core">
+    @Body
+    </div>
+    <div class="menu" @onclick="@Nav">
+       <div class="center"><p>&#x2630;</p></div>
+    </div>
+</main>
+
+@code{
+    public void Nav()
+    {
+        if (UX.ToMenu == true)
+        {
+            NM.NavigateTo("/menu");
+        }
+        else
+        {
+            NM.NavigateTo("/");
+        }
+    }
+}
