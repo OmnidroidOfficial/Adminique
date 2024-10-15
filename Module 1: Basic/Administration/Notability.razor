@@ -1,0 +1,205 @@
+@page "/notabilities"
+
+<div class="content" hidden="@C1">
+    <h2>Edit Notabilities</h2>
+    <p class="small">@Help</p>
+    <div hidden="@C3">
+        The expense is...
+        <select id="mode" name="mode" @onchange="@CD">
+            <option value="outgoing">Outgoing</option>
+            <option value="incoming">Incoming</option>
+        </select>
+    </div>
+    <div hidden="@C4">
+        <p>Give the @Direction expense a name.</p>
+        <input name="name" id="name" placeholder="Expense Name" @bind="@Name" @bind:event="oninput"/><br/>
+        <p>Select a category for @Name.</p>
+        <select name="category" id="category" @onchange="@Cat">
+            <option value="Essentials">Essentials</option>
+            <option value="Business">Business</option>
+            <option value="Stock Trading">Stock Trading</option>
+            <option value="Travel">Travel</option>
+            <option value="Recreation">Recreation</option>
+            <option value="Other">Other</option>
+        </select>
+    </div>
+    <div hidden="@C5">
+        <p>Assign a date to @Name.</p>
+        <input type="datetime" @bind="@Date" @bind:event="oninput"/><br/>
+        <p>Describe @Name (and why it is noteworthy).</p>
+        <textarea @bind="@Description" @bind:event="oninput"></textarea>
+    </div>
+    <button @onclick="@Nxt">Next</button>
+</div>
+
+<div class="content" hidden="@C2">
+    <h2>View Notabilities</h2>
+    <p>(Take screenshots.) Here is an overview of your administration of hours.</p>
+
+    <table>
+        <tr>
+            <th>Direction</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Date</th>
+            <th>Description</th>
+        </tr>
+            @foreach (var notability in Notability.Noteworthy)
+            {
+                <tr>
+                <td>@notability.Direction</td>
+                <td>@notability.Name</td>
+                <td>@notability.Category</td> 
+                <td>@notability.Date</td>
+                <td>@notability.Description</td>
+                </tr>
+            }
+    </table>
+</div>
+
+<div class="content">
+    <select id="mode" name="mode" @onchange="@ChangeMode">
+        <option value="edit">Edit</option>
+        <option value="view">View</option>
+    </select>
+</div>
+
+@code {
+    static public string Description { get; set; } = "";
+    static public DateTime Date { get; set; } = DateTime.Now;
+    static public string Category { get; set; } = "";
+    static public string Name { get; set; } = "";
+    static public string Direction { get; set; } = "";
+    static public List<Notabilities> Noteworthy { get; set; } = new();
+
+    static public int C { get; set; } = 0;
+    static public string Help { get; set; } = "";
+    static public string Next { get; set; } = "Next";
+    static public string Mode { get; set; } = "";
+    static public bool C5 { get; set; } = true;
+    static public bool C4 { get; set; } = true;
+    static public bool C3 { get; set; } = true;
+    static public bool C2 { get; set; } = true;
+    static public bool C1 { get; set; } = true;
+
+    static public void Nxt()
+    {
+        switch (C)
+        {
+            case 2:
+                if (Description != "")
+                {
+                    Next = "Next";
+                    Noteworthy.Add(new Notabilities(Direction, Name, Category, Description, Date));
+                    Help = "Your entry has been added.";
+                }
+                else
+                {
+                    Help = "Please make sure that all fields are filled out.";
+                }
+                break;
+            case 1:
+                if (Category != "" && Name != "")
+                {
+                    C = 2;
+                    Help = "";
+                    Next = "Save and Continue";
+                    C5 = false;
+                    C4 = true;
+                    C3 = true;
+                }
+                else
+                {
+                    Help = "Please enter a name and select a category.";
+                }
+                break;
+            case 0:
+                if (Direction != "")
+                {
+                    C = 1;
+                    Help = "";
+                    C4 = false;
+                    C3 = true;
+                }
+                else
+                {
+                    Help = "Please set the direction.";
+                }
+                break;
+        }
+    }
+
+    static public void Cat(ChangeEventArgs e)
+    {
+        if (e.Value is not null)
+        {
+            Category = (string)e.Value;
+        }
+    }
+
+    static public void CD(ChangeEventArgs e)
+    {
+        if (e.Value is not null)
+        {
+            Direction = (string)e.Value;
+        }
+    }
+
+    public class Notabilities
+    {
+        public Notabilities(string _direction, string _name, string _category, string _description, DateTime _date)
+        {
+            Direction = _direction;
+            Name = _name;
+            Category = _category;
+            Description = _description;
+            Date = _date;
+        }
+
+        public string Direction { get; set; }
+        public string Name { get; set; }
+        public string Category { get; set; }
+        public string Description { get; set; }
+        public DateTime Date { get; set; }
+    }
+
+    static public void ChangeMode(ChangeEventArgs e)
+    {
+        C = 0;
+        if (e.Value is not null)
+        {
+            Mode = (string)e.Value;
+            switch(Mode)
+            {
+                case "edit":
+                    C5 = true;
+                    C4 = true;
+                    C3 = false;
+                    C2 = true;
+                    C1 = false;
+                    break;
+                case "view":
+                    C5 = true;
+                    C4 = true;
+                    C3 = false;
+                    C1 = true;
+                    C2 = false;
+                    break;
+            }
+        }
+        // else
+        // {
+        //     C2 = true;
+        //     C1 = false;
+        // }
+    }
+
+    protected override void OnInitialized()
+    {
+        C5 = true;
+        C4 = true;
+        C3 = false;
+        C2 = true;
+        C1 = false;
+    }
+}
