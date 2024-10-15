@@ -1,0 +1,81 @@
+@page "/administration"
+@inject NavigationManager NM
+
+<div class="flexy" hidden="@C3">
+    <button @onclick="@X7">Payments</button>
+    <button @onclick="@X8">Budget Management</button>
+</div>
+
+<div class="flexy" hidden="@C2">
+    <button @onclick="@X5">Notabilities</button>
+    <button @onclick="@X6">Administration of Hours</button>
+</div>
+
+<div class="flexy" hidden="@C1">
+    <button @onclick="@X1">Journal</button>
+    <button @onclick="@X2">Financial Planning</button>
+    <button @onclick="@X3">Asset Management</button>
+</div>
+
+@code {
+    static public bool C1 { get; set; } = true;
+    static public bool C2 { get; set; } = true;
+    static public bool C3 { get; set; } = true;
+
+    public void X8()
+    {
+        UX.PageTitle = "Budget Management";
+        UX.ToMenu = true;
+    }
+
+    public void X7()
+    {
+        UX.PageTitle = "Payments";
+        UX.ToMenu = true;
+    }
+
+    public void X6()
+    {
+        UX.PageTitle = "Administration of Hours";
+        UX.ToMenu = true;
+        NM.NavigateTo("/administration-of-hours");
+    }
+
+    public void X5()
+    {
+        UX.PageTitle = "Notabilities";
+        UX.ToMenu = true;
+        NM.NavigateTo("/notabilities");
+    }
+
+    public void X3()
+    {
+        UX.PageTitle = "Asset Management";
+        UX.ToMenu = true;
+    }
+
+    public void X2()
+    {
+        UX.PageTitle = "Financial Planning";
+        UX.ToMenu = true;
+        C1 = true;
+        C2 = true;
+        C3 = false;
+    }
+
+    public void X1()
+    {
+        UX.PageTitle = "Journal";
+        UX.ToMenu = true;
+        C1 = true;
+        C3 = true;
+        C2 = false;
+    }
+
+    protected override void OnInitialized()
+    {
+        C3 = true;
+        C2 = true;
+        C1 = false;
+    }
+}
