@@ -1,0 +1,49 @@
+@page "/administration-of-hours"
+
+<div class="content" hidden="@C2">
+    <h2>View Notabilities</h2>
+    <p>(Take screenshots.) Here is an overview of your administration of hours.</p>
+
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Hours Worked</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Description</th>
+            <th>Name</th>
+        </tr>
+            @foreach (var notability in Notability.Noteworthy)
+            {
+                <tr>
+
+                </tr>
+            }
+    </table>
+</div>
+
+@code {
+    static public bool C2 { get; set; } = false;
+    public class HourlyAdministration
+    {
+        public HourlyAdministration(string _name, DateTime _date, string _category, DateTime _starttime, DateTime _endtime, double _hours, string _description)
+        {
+            Name = _name;
+            Date = _date;
+            Category = _category;
+            StartTime = _starttime;
+            EndTime = _endtime;
+            Hours = _hours;
+            Description = _description;
+        }
+
+        public string Name { get; set; }
+        public DateTime Date { get; set; }
+        public string Category { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public double Hours { get; set; }
+        public string Description { get; set; }
+    }
+}
