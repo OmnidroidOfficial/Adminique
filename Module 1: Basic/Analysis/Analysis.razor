@@ -1,0 +1,35 @@
+@page "/analysis"
+@inject NavigationManager NM
+<div class="flexy">
+    <button @onclick="@X1">Assets</button><br/>
+    <button @onclick="@X2">November</button>
+    <button @onclick="@X3">December</button>
+    <button @onclick="@X4">January</button>
+</div>
+
+@code {
+
+    public void X4()
+    {
+        UX.PageTitle = "Analysis of January";
+        UX.ToMenu = true;
+    }
+
+    public void X3()
+    {
+        UX.PageTitle = "Analysis of December";
+        UX.ToMenu = true;
+    }
+
+    public void X2()
+    {
+        UX.PageTitle = "Analysis of November";
+        UX.ToMenu = true;
+    }
+
+    public void X1()
+    {
+        UX.PageTitle = "Analysis of Assets";
+        UX.ToMenu = true;
+    }
+}
