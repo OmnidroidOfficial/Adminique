@@ -1,33 +1,127 @@
 @page "/administration-of-hours"
 
+<div class="content" hidden="@C1">
+    <h2>Edit Administration of Hours</h2>
+    <p class="small">@Help</p>
+    <input id="Title" name="Title" type="text" placeholder="Title" @bind="@Title" @bind:event="oninput"/>
+    <input id="Date" name="Date" type="date" placeholder="Date" @bind="@Date" @bind:event="oninput" />
+    <select onchange="@Cat">
+        <option value="Business" selected>Business</option>
+        <option value="Study">Study</option>
+        <option value="Fitness">Fitness</option>
+        <option value="Family">Family</option>
+        <option value="Travel">Travel</option>
+        <option value="Other">Other</option>
+    </select>
+    <p>Describe @Title,</p>
+    <p>@Category hours on @Date.</p>
+    <textarea id="Description" name="Description" @bind="@Description" @bind:event="oninput"></textarea>
+    <input id="Hours" name="Hours" type="number" placeholder="Hours Worked" @bind="@Hours" @bind:event="oninput"/>
+    <input id="StartTime" name="StartTime" type="time" placeholder="Start Time" @bind="@StartTime" @bind:event="oninput" />
+    <input id="EndTime" name="EndTime" type="time" placeholder="End Time" @bind="@EndTime" @bind:event="oninput" />
+    <button onclick="@Add">Add</button>
+    <button onclick="@Clear">Clear</button>
+</div>
+
 <div class="content" hidden="@C2">
-    <h2>View Notabilities</h2>
-    <p>(Take screenshots.) Here is an overview of your administration of hours.</p>
+    <h2>View Administration of Hours</h2>
+    <p>(Take a screenshot.) Here is an oversight of your administration of hours.</p>
 
     <table>
         <tr>
+            <th>Title</th>
             <th>Date</th>
             <th>Category</th>
+            <th>Description</th>
             <th>Hours Worked</th>
             <th>Start Time</th>
             <th>End Time</th>
-            <th>Description</th>
-            <th>Name</th>
         </tr>
-            @foreach (var notability in Notability.Noteworthy)
+            @foreach (var AOH in AdministrationOfHours.AOH)
             {
                 <tr>
-
+                    <td>@AOH.Name</td>
+                    <td>@AOH.Date</td>
+                    <td>@AOH.Category</td>
+                    <td>@AOH.Description</td>
+                    <td>@AOH.Hours</td>
+                    <td>@AOH.StartTime</td>
+                    <td>@AOH.EndTime</td>
                 </tr>
             }
     </table>
 </div>
+<div class="content">
+    <select id="mode" name="mode" @onchange="@ChangeMode">
+        <option value="edit">Edit</option>
+        <option value="view">View</option>
+    </select>
+</div>
 
 @code {
-    static public bool C2 { get; set; } = false;
+    static public double Hours { get; set; } = 0.0;
+    static public TimeOnly EndTime { get; set; } = TimeOnly.FromDateTime(DateTime.Now);
+    static public TimeOnly StartTime { get; set; } = TimeOnly.FromDateTime(DateTime.Now);
+    static public string Description { get; set; } = "";
+    static public string Category { get; set; } = "";
+    static public DateOnly Date { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+    static public string Title { get; set; } = "";
+    static public List<HourlyAdministration> AOH { get; set; } = new();
+
+    static public string Help { get; set; } = "";
+    static public string Mode { get; set; } = "";
+    static public bool C2 { get; set; } = true;
+    static public bool C1 { get; set; } = true;
+
+    static public void ChangeMode(ChangeEventArgs e)
+    {
+        if (e.Value is not null)
+        {
+            Mode = (string)e.Value;
+            switch (Mode)
+            {
+                case "edit":
+                    C2 = true;
+                    C1 = false;
+                    break;
+                case "view":
+                    C1 = true;
+                    C2 = false;
+                    break;
+            }
+        }
+    }
+
+    static public void Clear()
+    {
+        Hours = 0.0;
+        EndTime = TimeOnly.FromDateTime(DateTime.Now);
+        StartTime = TimeOnly.FromDateTime(DateTime.Now);
+        Description = "";
+        Category = "";
+        Date = DateOnly.FromDateTime(DateTime.Now);
+        Title = "";
+        Help = "All fields are cleared.";
+    }
+
+    static public void Add()
+    {
+        AOH.Add(new HourlyAdministration(Title, Date, Category, StartTime, EndTime, Hours, Description));
+        Help = "Your entry is added.";
+    }
+
+    static public void Cat(ChangeEventArgs e)
+    {
+        Help = "";
+        if (e.Value is not null)
+        {
+            Category = (string)e.Value;
+        }
+    }
+
     public class HourlyAdministration
     {
-        public HourlyAdministration(string _name, DateTime _date, string _category, DateTime _starttime, DateTime _endtime, double _hours, string _description)
+        public HourlyAdministration(string _name, DateOnly _date, string _category, TimeOnly _starttime, TimeOnly _endtime, double _hours, string _description)
         {
             Name = _name;
             Date = _date;
@@ -39,11 +133,18 @@
         }
 
         public string Name { get; set; }
-        public DateTime Date { get; set; }
+        public DateOnly Date { get; set; }
         public string Category { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
+        public TimeOnly StartTime { get; set; }
+        public TimeOnly EndTime { get; set; }
         public double Hours { get; set; }
         public string Description { get; set; }
+    }
+
+    protected override void OnInitialized()
+    {
+        C2 = true;
+        C1 = false;
+        Help = "";
     }
 }
