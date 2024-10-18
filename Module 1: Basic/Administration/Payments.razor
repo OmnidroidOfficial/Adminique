@@ -1,0 +1,184 @@
+@page "/payments"
+
+<div class="flexy" hidden="@C1">
+<h2>Edit Payments</h2>
+    <p class="small">@H2</p>
+    <select id="type" name="type" @onchange="@T">
+        <option value="">-- Select a Type --</option>
+        <option value="Debet">Debet</option>
+        <option value="Credit">Credit</option>
+    </select>
+<p class="small">@H1</p>
+<input id="receiver" name="receiver" placeholder="Name" type="text" @bind="@Receiver" @bind:event="oninput"/>
+    <p class="small">@H3</p>
+    <input id="value" name="value" placeholder="Value" type="text" @bind="@Value" @bind:event="oninput" />
+    <input id="DueDate" name="DueDate" type="date" @bind="@DueDate" @bind:event="oninput" />
+    <p class="small">@H5</p>
+    <input id="description" name="description" placeholder="Payment Description" type="text" @bind="@Description" @bind:event="oninput" />
+    <textarea id="additionalinformation" name="additionalinformation" type="text" @bind="@AdditionalInformation" @bind:event="oninput"></textarea>
+<button @onclick="@Add">Add</button>
+<button @onclick="@Clear">Clear All</button>
+</div>
+
+<div class="flexy" hidden="@C2">
+<h2>View Payments</h2>
+<p>Here is an oversight of your payments. (Take a screenshot.)</p>
+<table>
+    <tr>
+        <th>Receiver</th>
+            <th>Type</th>
+            <th>Value</th>
+            <th>Due Date</th>
+            <th>Payment Description</th>
+            <th>Additional Information</th>
+    </tr>
+    @foreach (var payment in Payments.Paying)
+        {
+            <tr>
+                <td>@payment.Receiver</td>
+                <td>@payment.Side</td>
+                <td>@payment.Value</td>
+                <td>@payment.DueDate</td>
+                <td>@payment.Description</td>
+                <td>@payment.AdditionalInformation</td>
+            </tr>
+        }
+    </table>
+</div>
+<div class="flexy">
+    <select id="mode" name="mode" @onchange="@ChangeMode">
+        <option value="1">Edit</option>
+        <option value="2">View</option>
+    </select>
+</div>
+@code {
+    static public string Receiver { get; set; } = "";
+    static public string Side { get; set; } = "";
+    static public string Value { get; set; } = "";
+    static public DateOnly DueDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);    
+    static public string Description { get; set; } = "";
+    static public string AdditionalInformation { get; set; } = "";
+    static public List<Payment> Paying { get; set; } = new();
+
+    static public string H5 { get; set; } = "";
+    static public string H3 { get; set; } = "";
+    static public string H2 { get; set; } = "";
+    static public string H1 { get; set; } = "";
+    static public string Mode { get; set; } = "0";
+    static public bool C2 { get; set; } = true;
+    static public bool C1 { get; set; } = true;
+
+    static public void ChangeMode(ChangeEventArgs e)
+    {
+        if (e.Value is not null)
+        {
+            Mode = (string)e.Value;
+            switch (Mode)
+            {
+                case "1":
+                    C2 = true;
+                    C1 = false;
+                    break;
+                case "2":
+                    C1 = true;
+                    C2 = false;
+                    break;
+            }
+        }
+    }
+
+    static public void T(ChangeEventArgs e)
+    {
+        H1 = "";
+        H2 = "";
+        H3 = "";
+        H5 = "";
+
+        if (e.Value is not null)
+        {
+            Side = (string)e.Value;
+        }
+    }
+
+    static public void Add()
+    {
+        if (Side == "")
+        {
+            H2 = "Please select the type.";
+        }
+        if (Receiver == "")
+        {
+            switch (Side)
+            {
+                case "Debet":
+                    H1 = "Please enter the name of the sender.";
+                    break;
+                case "Credit":
+                    H1 = "Please enter the name of the receiver.";
+                    break;
+            }
+        }
+        if (Value == "")
+        {
+            switch (Side)
+            {
+                case "Debet":
+                    H3 = "Please enter the value of the incoming payment.";
+                    break;
+                case "Credit":
+                    H3 = "Please enter the size of the outgoing expense.";
+                    break;
+            }
+        }
+
+        if (Description == "")
+        {
+            H5 = "Please enter the description of the payment.";
+        }
+
+        if (Side != "" && Receiver != "" && Value != "" && Description != "")
+        {
+            H1 = "";
+            H3 = "";
+            H5 = "";
+            Paying.Add(new Payment(Receiver, Side, Value, DueDate, Description, AdditionalInformation));
+            H2 = "Payment added.";
+        }
+    }
+
+    static public void Clear()
+    {
+        Receiver = "";
+        Side = "";
+        Value = "";
+        DueDate = DateOnly.FromDateTime(DateTime.Now);
+        Description = "";
+        AdditionalInformation = "";
+    }
+
+    public class Payment
+    {
+        public Payment(string _receiver, string _side, string _value, DateOnly _duedate, string _description, string _additionalinformation)
+        {
+            Receiver = _receiver;
+            Side = _side;
+            Value = _value;
+            DueDate = _duedate;
+            Description = _description;
+            AdditionalInformation = _additionalinformation;
+        }
+
+        public string Receiver { get; set; }
+        public string Side { get; set; }
+        public string Value { get; set; }
+        public DateOnly DueDate { get; set; }
+        public string Description { get; set; }
+        public string AdditionalInformation { get; set; }
+    }
+
+    protected override void OnInitialized()
+    {
+        C2 = true;
+        C1 = false;
+    }
+}
