@@ -1,5 +1,191 @@
+@font-face {
+    font-family: "Noto Serif Display", serif;
+    src: url(css/fonts/notoserifdisplay.ttf);
+}
+
+@font-face {
+    font-family: "Kaisei Decol", serif;
+    src: url(css/fonts/kaiseidecol.ttf);
+}
+
+@font-face {
+    font-family: "Unna", serif;
+    src: url(css/fonts/unna.ttf);
+}
+
+@font-face {
+    font-family: "Anonymous Pro", monospace;
+    src: url(css/fonts/anonymouspro.ttf);
+}
+
+p.accent {
+    font-family: "Kaisei Decol", serif;
+    font-size: 1.3rem;
+    text-align: center;
+}
+
+p.center {
+    text-align: center;
+}
+
+p.small {
+    font-size: 0.7em;
+}
+
+p.menu {
+    font-size: 1.7em;
+}
+
+p {
+    font-family: Unna, serif;
+    font-size: 1.1em;
+}
+
+h3 {
+    font-family: "Kaisei Decol", serif;
+    font-size: 1.3em;
+    text-align: center;
+}
+
+h2 {
+    font-family: "Noto Serif Display", serif;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+h1.title{
+    font-size: 1.7rem;
+    vertical-align: central;
+}
+
 h1:focus {
     outline: none;
+}
+
+h1 {
+    font-family: "Noto Serif Display", serif;
+    font-size: 1.7em;
+    text-align: center;
+}
+
+td {
+    padding-top: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+    text-align: center;
+    font-family: "Anonymous Pro", monospace;
+}
+
+th {
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 10px;
+    text-align: center;
+    background-color: #000000;
+    color: #FFFFFF;
+    font-family: "Kaisei Decol", serif;
+    font-size: 1.3rem;
+}
+
+table{
+    width: 100%;
+}
+
+option{
+    font-family: "Kaisei Decol", serif;
+}
+
+select {
+    margin-top: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5px;
+    padding-top: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+    display: block;
+    font-family: "Anonymous Pro", monospace;
+}
+
+input {
+    margin-top: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5px;
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 10px;
+    display: block;
+    font-family: "Anonymous Pro", monospace;
+}
+
+textarea {
+    margin-top: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5px;
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 10px;
+    display: block;
+    font-family: "Anonymous Pro", monospace;
+}
+
+button.tab-black {
+    margin-top: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 10px;
+    width: 30%;
+    outline: 1px solid #000000;
+    border: 1px solid #FFFFFF;
+    background-color: #000000;
+    color: #FFFFFF;
+    padding-top: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+}
+
+button.tab {
+    margin-top: 10px;
+    margin-left: 1%;
+    margin-right: 5px;
+    margin-bottom: 10px;
+    width: 30%;
+    padding-top: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+}
+
+button.menu{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+button {
+    margin-top: 10px;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom: 10px;
+    width: 80%;
+    border: 1px solid #000000;
+    background-color: #FFFFFF;
+    font-family: "Kaisei Decol", serif;
+    padding-top: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
 }
 
 div.center{
@@ -8,23 +194,43 @@ div.center{
     vertical-align: central;
 }
 
-div.header{
-    height: 15%;
+div.flexy{
+    width: 100%;
+}
+
+div.title {
+    height: 10%;
+    vertical-align: bottom;
+}
+
+div.header {
+    display: block;
+    margin-top: 5%;
+    position: sticky;
 }
 div.core {
+    display: flex;
     height: 75%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    justify-content: center;
+    align-items: center;
+    align-content: stretch;
+    flex-direction: column;
     border-top: 1px solid #000000;
     border-bottom: 1px solid #000000;
+    vertical-align: central;
 }
 
 div.menu{
     display: flex;
     height: 10%;
-    margin-top: 5%;
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-bottom: 5%;
+    margin-top: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 5px;
     align-content: stretch;
+    vertical-align: bottom;
 }
 
 #blazor-error-ui {
@@ -55,3 +261,8 @@ div.menu{
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+main{
+    height: 100%;
+    max-height: 100%;
+}
