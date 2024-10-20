@@ -1,31 +1,35 @@
 @page "/administration-of-hours"
 
-<div class="content" hidden="@C1">
+<div class="flexy" hidden="@C1">
     <h2>Edit Administration of Hours</h2>
-    <p class="small">@Help</p>
+    <p class="center small">@Help</p>
     <input id="Title" name="Title" type="text" placeholder="Title" @bind="@Title" @bind:event="oninput"/>
     <input id="Date" name="Date" type="date" placeholder="Date" @bind="@Date" @bind:event="oninput" />
     <select onchange="@Cat">
-        <option value="Business" selected>Business</option>
+        <option value="">-- Select a Category --</option>
+        <option value="Business">Business</option>
         <option value="Study">Study</option>
         <option value="Fitness">Fitness</option>
         <option value="Family">Family</option>
         <option value="Travel">Travel</option>
         <option value="Other">Other</option>
     </select>
-    <p>Describe @Title,</p>
-    <p>@Category hours on @Date.</p>
+    <p class="center">Describe @Title,</p>
+    <p class="center">@Category hours on @Date.</p>
     <textarea id="Description" name="Description" @bind="@Description" @bind:event="oninput"></textarea>
+    <p class="center">Total hours worked (excluding breaks):</p>
     <input id="Hours" name="Hours" type="number" placeholder="Hours Worked" @bind="@Hours" @bind:event="oninput"/>
+    <p class="center">Start time:</p>
     <input id="StartTime" name="StartTime" type="time" placeholder="Start Time" @bind="@StartTime" @bind:event="oninput" />
+    <p class="center">End time:</p>
     <input id="EndTime" name="EndTime" type="time" placeholder="End Time" @bind="@EndTime" @bind:event="oninput" />
     <button onclick="@Add">Add</button>
     <button onclick="@Clear">Clear</button>
 </div>
 
-<div class="content" hidden="@C2">
+<div class="flexy" hidden="@C2">
     <h2>View Administration of Hours</h2>
-    <p>(Take a screenshot.) Here is an oversight of your administration of hours.</p>
+    <p class="center">Here is an oversight of your administration of hours. (Take a screenshot.)</p>
 
     <table>
         <tr>
