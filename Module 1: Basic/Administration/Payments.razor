@@ -11,7 +11,7 @@
 <p class="small">@H1</p>
 <input id="receiver" name="receiver" placeholder="Name" type="text" @bind="@Receiver" @bind:event="oninput"/>
     <p class="small">@H3</p>
-    <input id="value" name="value" placeholder="Value" type="text" @bind="@Value" @bind:event="oninput" />
+    <input id="value" name="value" placeholder="Value in @Currency" type="text" @bind="@Value" @bind:event="oninput" />
     <input id="DueDate" name="DueDate" type="date" @bind="@DueDate" @bind:event="oninput" />
     <p class="small">@H5</p>
     <input id="description" name="description" placeholder="Payment Description" type="text" @bind="@Description" @bind:event="oninput" />
@@ -27,7 +27,7 @@
     <tr>
         <th>Receiver</th>
             <th>Type</th>
-            <th>Value</th>
+            <th>Value in @Currency</th>
             <th>Due Date</th>
             <th>Payment Description</th>
             <th>Additional Information</th>
@@ -60,6 +60,7 @@
     static public string AdditionalInformation { get; set; } = "";
     static public List<Payment> Paying { get; set; } = new();
 
+    static public string Currency { get; set; } = "";
     static public string H5 { get; set; } = "";
     static public string H3 { get; set; } = "";
     static public string H2 { get; set; } = "";
@@ -178,6 +179,7 @@
 
     protected override void OnInitialized()
     {
+        Currency = User.Currency;   
         C2 = true;
         C1 = false;
     }
