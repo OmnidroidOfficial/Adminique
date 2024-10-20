@@ -1,22 +1,24 @@
 @page "/notabilities"
 
-<div class="content" hidden="@C1">
+<div class="flexy" hidden="@C1">
     <h2>Edit Notabilities</h2>
-    <p class="small">@Help</p>
+    <p class="center small">@Help</p>
     <div hidden="@C3">
-        <p>The value of the expense is:</p>
-        <input name="value" id="value" placeholder="Value" @bind="@Value" @bind:event="oninput"/>
-        <p>The expense is...</p>
+        <p class="center">The value of the expense is:</p>
+        <input name="value" id="value" placeholder="Value in @Currency" @bind="@Value" @bind:event="oninput"/>
+        <p class="center">The expense is...</p>
         <select id="mode" name="mode" @onchange="@CD">
-            <option value="outgoing">Outgoing</option>
-            <option value="incoming">Incoming</option>
+            <option value="">-- Select a Direction --</option>
+            <option value="Outgoing">Outgoing</option>
+            <option value="Incoming">Incoming</option>
         </select>
     </div>
     <div hidden="@C4">
-        <p>Give the @Direction expense a name.</p>
+        <p class="center">Give the @Direction expense a name.</p>
         <input name="name" id="name" placeholder="Expense Name" @bind="@Name" @bind:event="oninput"/><br/>
-        <p>Select a category for @Name.</p>
+        <p class="center">Select a category for @Name.</p>
         <select name="category" id="category" @onchange="@Cat">
+            <option value="">-- Select a Category --</option>
             <option value="Essentials">Essentials</option>
             <option value="Business">Business</option>
             <option value="Stock Trading">Stock Trading</option>
@@ -26,21 +28,21 @@
         </select>
     </div>
     <div hidden="@C5">
-        <p>Assign a date to @Name.</p>
+        <p class="center">Assign a date to @Name.</p>
         <input type="datetime" @bind="@Date" @bind:event="oninput"/><br/>
-        <p>Describe @Name (and why it is noteworthy).</p>
+        <p class="center">Describe @Name (and why it is noteworthy).</p>
         <textarea @bind="@Description" @bind:event="oninput"></textarea>
     </div>
     <button @onclick="@Nxt">Next</button>
 </div>
 
-<div class="content" hidden="@C2">
+<div class="flexy" hidden="@C2">
     <h2>View Notabilities</h2>
-    <p>(Take a screenshot.) Here is an oversight of your "notabilities".</p>
+    <p class="center">Here is an oversight of your notabilities. (Take a screenshot.)</p>
 
     <table>
         <tr>
-            <th>Value</th>
+            <th>Value in @Currency</th>
             <th>Direction</th>
             <th>Name</th>
             <th>Category</th>
@@ -61,7 +63,7 @@
     </table>
 </div>
 
-<div class="content">
+<div class="flexy">
     <select id="mode" name="mode" @onchange="@ChangeMode">
         <option value="edit">Edit</option>
         <option value="view">View</option>
@@ -70,7 +72,7 @@
 
 @code {
     static public string Description { get; set; } = "";
-    static public DateTime Date { get; set; } = DateTime.Now;
+    static public DateOnly Date { get; set; } = DateOnly.FromDateTime(DateTime.Now);
     static public string Category { get; set; } = "";
     static public string Name { get; set; } = "";
     static public string Direction { get; set; } = "";
@@ -79,6 +81,7 @@
 
     static public int C { get; set; } = 0;
     static public string Help { get; set; } = "";
+    static public string Currency { get; set; } = "";
     static public string Next { get; set; } = "Next";
     static public string Mode { get; set; } = "";
     static public bool C5 { get; set; } = true;
@@ -183,7 +186,7 @@
 
     public class Notabilities
     {
-        public Notabilities(string _value, string _direction, string _name, string _category, string _description, DateTime _date)
+        public Notabilities(string _value, string _direction, string _name, string _category, string _description, DateOnly _date)
         {
             Value = _value;
             Direction = _direction;
@@ -197,11 +200,12 @@
         public string Name { get; set; }
         public string Category { get; set; }
         public string Description { get; set; }
-        public DateTime Date { get; set; }
+        public DateOnly Date { get; set; }
     }
 
     protected override void OnInitialized()
     {
+        Currency = User.Currency;
         C5 = true;
         C4 = true;
         C3 = false;
