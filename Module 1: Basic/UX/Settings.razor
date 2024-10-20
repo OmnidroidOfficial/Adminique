@@ -1,0 +1,178 @@
+@page "/settings"
+
+<div hidden="@C4">
+<div class="flexy" hidden="@C3">
+    <p class="center">Clearing all user data means that all administration and analysis data and the display name that you have provided will be deleted.</p>
+    <p class="accent">Are you sure that all user data must be cleared?</p>
+    <p class="center small">@Help1</p>
+    <button @onclick="@Y2">Yes, clear all user data.</button>
+</div>
+
+<div class="flexy" hidden="@C5">
+    <p class="center small">@Help3</p>
+    <p class="center">Enter your currency. (By sign or by name.)</p>
+    <input id="currency" name="currency" placeholder="E.g. '$' or 'USD'" @bind="@Currency" @bind:event="oninput"/>
+    <p>Select the location of the currency sign/name.</p>
+    <select id="setcurrency" @onchange="@C">
+        <option value="">-- Select a Location --</option>
+        <option value="before">Before the price</option>
+        <option value="after">After the price</option>
+    </select>
+    <p class="center small">@Help4</p>
+    <button @onclick="@Y3">Save Currency Settings</button>
+</div>
+
+    <div hidden="@C6">
+        <h2>Set Your Monthly Budget</h2>
+        <p class="center small">@Help5</p>
+        <input id="budget" name="budget" placeholder="Budget in @Currency2" @bind="@Budget" @bind:event="oninput" />
+        <button @onclick="@Y4">Save</button>
+    </div>
+
+<div class="flexy" hidden="@C2">
+    <input placeholder="Enter Display Name" @bind="@DisplayName" @bind:event="oninput"/><br/>
+    <p class="center small">@Help2</p>
+    <button @onclick="@Y1">Save</button>
+</div>
+    <button @onclick="@X3">Return</button>
+</div>
+
+<div class="flexy" hidden="@C1">
+    <button @onclick="@X1">Set Display Name</button>
+    <button @onclick="@X5">Budget Settings</button>
+    <button @onclick="@X4">Currency Settings</button>
+    <button @onclick="@X2">Clear All User Data</button>
+</div>
+
+@code {
+    static public string Help4 { get; set; } = "";
+    static public string Help3 { get; set; } = "";
+    static public string Help5 { get; set; } = "";
+    static public string Help2 { get; set; } = "";
+    static public string Help1 { get; set; } = "";
+    static public string Currency { get; set; } = "";
+    static public string Currency2 { get; set; } = "";
+    static public string Budget { get; set; } = "";
+    static public string DisplayName { get; set; } = "";
+    static public bool C6 { get; set; } = true;
+    static public bool C5 { get; set; } = true;
+    static public bool C4 { get; set; } = true;
+    static public bool C3 { get; set; } = true;
+    static public bool C2 { get; set; } = true;
+    static public bool C1 { get; set; } = true;
+
+    public void X3()
+    {
+        Help1 = "";
+        Help2 = "";
+        Help3 = "";
+        Help4 = "";
+        Help5 = "";
+        C2 = true;
+        C3 = true;
+        C4 = true;
+        C5 = true;
+        C6 = true;
+        C1 = false;
+    }
+
+    static public void Y4()
+    {
+        if (Budget != "")
+        {
+            FinancialEvaluation.MonthlyBudget = Budget;
+            Help5 = "Budget settings saved."; 
+        }
+    }
+
+    static public void Y3()
+    {
+        if (Currency != "")
+        {
+            User.Currency = Currency;
+            Help3 = "Currency settings saved.";
+        }
+    }
+
+    static public void C(ChangeEventArgs e)
+    {
+        if (e.Value is not null)
+        {
+            switch((string)e.Value)
+            {
+                case "before":
+                    User.Location = "Before";
+                    Help4 = "Currency location set to: before.";
+                    break;
+                case "after":
+                    User.Location = "After";
+                    Help4 = "Currency location set to: after.";
+                    break;
+            }
+        }
+    }
+
+    static public void Y2()
+    {
+        UX.Clear();
+        Help1 = "All user data is cleared.";
+    }
+
+    static public void Y1()
+    {
+        User.Name = DisplayName;
+        UX.SetDisplayName();
+        Help2 = "Display Name saved.";
+    }
+
+    public void X5()
+    {
+        C1 = true;
+        C2 = true;
+        C3 = true;
+        C5 = true;
+        C6 = false;
+        C4 = false;
+    }
+
+    public void X4()
+    {
+        C1 = true;
+        C2 = true;
+        C3 = true;
+        C6 = true;
+        C5 = false;
+        C4 = false;
+    }
+
+    public void X2()
+    {
+        C1 = true;
+        C2 = true;
+        C5 = true;
+        C6 = true;
+        C3 = false;
+        C4 = false;
+    }
+
+    public void X1()
+    {
+        C1 = true;
+        C3 = true;
+        C5 = true;
+        C6 = true;
+        C2 = false;
+        C4 = false;
+    }
+
+    protected override void OnInitialized()
+    {
+        Currency2 = User.Currency;
+        C6 = true;
+        C5 = true;
+        C4 = true;
+        C3 = true;
+        C2 = true;
+        C1 = false;
+    }
+}
