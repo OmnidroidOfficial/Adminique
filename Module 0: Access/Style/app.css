@@ -233,6 +233,19 @@ div.menu{
     vertical-align: bottom;
 }
 
+div.cookie {
+    position: absolute;
+    display: block;
+    padding-top: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+    z-index: 1;
+    vertical-align: central;
+    background-color: #FFFFFF;
+    border: 1px double #000000;
+}
+
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;
