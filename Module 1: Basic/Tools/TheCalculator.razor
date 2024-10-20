@@ -1,12 +1,12 @@
 @page "/the-calculator"
 
 <div class="flexy" hidden="@C1">
-    <p>@Help</p>
-    <label><b>Enter Budget</b> <br /> <input type="number" @bind="@Budget" @bind:event="oninput" required /></label>
-    <p>"The price-value of the expense that I am considering is..."</p>
-<label><b>Enter Price</b><br/> <input type="number" @bind="@Price" @bind:event="oninput" required /></label><br/>
-    <p>"Of my budget, I would like to not spend more than this percentage:"</p>
-<label><b>Enter Savings-ratio</b> <br /> <input type="number" @bind="@Ratio" @bind:event="oninput" required />%</label><br/>
+    <p class="center">@Help</p>
+    <p class="center"><b>Enter Budget</b> </p> <input type="number" @bind="@Budget" @bind:event="oninput" required />
+    <p class="center">"The price-value of the expense that I am considering is..."</p>
+<p class="center"><b>Enter Price</b></p> <input type="number" @bind="@Price" @bind:event="oninput" required />
+    <p class="center">"Of my budget, I would like to not spend more than this percentage:"</p>
+<p class="center"><b>Enter Savings-ratio</b> <br /> <input type="number" @bind="@Ratio" @bind:event="oninput" required />%</p><br/>
 <button @onclick="@X1">Calculate</button>
 </div>
 <div class="flexy" hidden="@C2">
@@ -25,17 +25,21 @@
 
     <p class="small">
         <b>Calculation:</b><br />
-        @Ratio % of @Budget is: @Capacity <br/>
-        <i>There is @Capacity to spend.</i><br />
-        @Capacity minus @Price is: @Residual <br />
-        <i>Of the capacity (@Capacity) there is @Residual left after the expense of @Price.</i><br />
+        @Ratio % of @Before @Budget @After is: @Capacity <br/>
+        <i>There is @Before @Capacity @After to spend.</i><br />
+        @Capacity minus @Before @Price @After is: @Residual <br />
+        <i>Of the capacity (@Before @Capacity @After) there is @Before @Residual @After left after the expense of @Before @Price @After.</i><br />
         if @Residual is greater than 0, the expense could be considered.
+        <i>The residual is (@Before @Residual @After / @Before @Budget @After) * 100% = @Share % of your budget.</i>
     </p>
     <button @onclick="@X2">Return</button>
 </div>
 
 @code {
     static public string Help { get; set; } = "";
+    static public string After { get; set; } = "";
+    static public string Before { get; set; } = "";
+    static public string Currency { get; set; } = "";
     static public int Share { get; set; } = 0;
     static public int Residual { get; set; } = Capacity - Price;
     static public int Capacity { get; set; } = Budget / 100 * Ratio;
@@ -59,7 +63,7 @@
         if (Price is not 0)
         {
             Help = "";
-            Capacity = Budget / 100 * Ratio;
+            Capacity = (Budget / 100) * Ratio;
             Residual = Capacity - Price;
             if (Residual >= 0)
             {
@@ -91,6 +95,14 @@
         {
             Help = "Please set the price.";
         }
-        
+
+    }
+
+    protected override void OnInitialized()
+    {
+        User.SetCurrency();
+        Currency = User.Currency;
+        After = User.After;
+        Before = User.Before;
     }
 }
