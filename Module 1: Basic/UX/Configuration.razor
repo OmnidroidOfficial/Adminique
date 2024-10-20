@@ -1,0 +1,136 @@
+@page "/configuration"
+@inject NavigationManager NM
+
+<div hidden="@C1">
+    <h2>Define Your Currency Settings</h2>
+    <p class="center small">@H1</p>
+    <p class="center">Enter your currency. (By sign or by name.)</p>
+    <input id="currency" name="currency" placeholder="E.g. '$' or 'USD'" @bind="@Currency" @bind:event="oninput" />
+    <p>Select the location of the currency sign/name.</p>
+    <select id="setcurrency" @onchange="@C">
+        <option value="">-- Select a Location --</option>
+        <option value="before">Before the price</option>
+        <option value="after">After the price</option>
+    </select>
+    <p class="center small">@H2</p>
+    <button @onclick="@X2">Save & Continue</button>
+</div>
+
+<div hidden="@C3">
+    <h2>Set Your Monthly Budget</h2>
+    <p class="center small">@H4</p>
+    <input id="budget" name="budget" placeholder="Budget in @Currency" @bind="@Budget" @bind:event="oninput"/>
+    <button @onclick="@X3">Save & Continue</button>
+</div>
+
+<div hidden="@C2">
+    <h2>Set Your Display Name</h2>
+    <p class="center small">@H3</p>
+    <p class="center">Enter a display name in the input field below.</p>
+<input placeholder="Enter Display Name" @bind="@DisplayName" @bind:event="oninput"/><br/>
+    <button @onclick="@X1">Save & Finish</button>
+</div>
+@code {
+    static public string DisplayName { get; set; } = "";
+    static public string Budget { get; set; } = "";
+    static public string Currency { get; set; } = "";
+    static public string Location { get; set; } = "";
+
+    static public string H3 { get; set; } = "";
+    static public string H4 { get; set; } = "";
+    static public string H2 { get; set; } = "";
+    static public string H1 { get; set; } = "";
+
+    static public bool C3 { get; set; } = true;
+    static public bool C2 { get; set; } = true;
+    static public bool C1 { get; set; } = true;
+
+    public void X1()
+    {
+        if (DisplayName is not null)
+        {
+            H3 = "";
+            User.Name = DisplayName;
+            var x = UX.SetDisplayName;
+            x();
+            var y = UX.SetDayPart;
+            y();
+            UX.PageTitle = "Good " + UX.DayPart + UX.UserDisplay;
+            UX.UserIni = true;
+            NM.NavigateTo("/home");
+        }
+        else
+        {
+            H3 = "Please set a display name.";
+        }
+    }
+
+    static public void X3()
+    {
+        if (Budget != "")
+        {
+            H4 = "";
+            FinancialEvaluation.MonthlyBudget = Budget;
+            C3 = true;
+            C2 = false;
+        }
+        else
+        {
+            H4 = "Please enter your (average) monthly budget.";
+        }
+    }
+
+    static public void X2()
+    {
+        if (Currency != "" && Location != "")
+        {
+            H1 = "";
+            H2 = "";
+            User.Currency = Currency;
+            C1 = true;
+            C3 = false;
+        }
+        if (Currency == "" && Location == "")
+        {
+            H1 = "Please enter the currency that you use the most.";
+            H2 = "Please select the location of the currency sign or name.";
+        }
+        if (Currency == "" && Location != "")
+        {
+            H2 = "";
+            H1 = "Please enter the currency that you use the most.";
+        }
+        if (Location == "" & Currency != "")
+        {
+            H1 = "";
+            H2 = "Please select the location of the currency sign or name.";
+        }
+    }
+
+    static public void C(ChangeEventArgs e)
+    {
+        if (e.Value is not null)
+        {
+            Location = (string)e.Value;
+            switch ((string)e.Value)
+            {
+                case "before":
+                    User.Location = "Before";
+                    H2 = "Currency location set to: before.";
+                    break;
+                case "after":
+                    User.Location = "After";
+                    H2 = "Currency location set to: after.";
+                    break;
+            }
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        C3 = true;
+        C2 = true;
+        C1 = false;
+    }
+
+}
