@@ -2,46 +2,175 @@
 
 <div class="flexy" hidden="@C1">
 <h2>Edit Assets</h2>
+<p class="center small">@H1</p>
     <p class="center"><b>Asset Name</b></p>
+    <input id="name" name="name" type="text" placeholder="Name of Asset" @bind="@AssetName" @bind:event="oninput" />
     <p class="center"><b>Purchase Date</b></p>
+    <input id="date" name="date" type="date" @bind="@PurchaseDate" @bind:event="oninput" />
     <p class="center"><b>Asset Category</b></p>
+    <select @onchange="@Cat">
+        <option value="">-- Select a Category --</option>
+        <option value="privateassets">Private Assets</option>
+        <option value="businessassets">Business Assets</option>
+    </select>
+    <p class="center small">@H2</p>
     <div hidden="@Z1">
         <p class="center"><b>Purchase Value</b></p>
-        <p class="center"><b>Depreciation Period</b></p>
-        <p class="center"><b>Depreciation Value</b></p>
+        <input id="businessvalue" name="businessvalue" placeholder="Value in @Currency" @bind="@BusinessValue" @bind:event="oninput" />
+        <p class="center"><b>Value of Monthly Depreciation</b></p>
+        <input id="depreciation" name="depreciation" placeholder="Value in @Currency" @bind="@Depreciation" @bind:event="oninput" />
         <p class="center"><b>Notes</b></p>
+        <textarea id="businessnotes" name="businessnotes" @bind="@BusinessNotes" @bind:event="oninput"></textarea>
+        <button @onclick="@Y1">Add Asset</button>
     </div>
     <div hidden="@Z2">
         <p class="center"><b>Purchase Value</b></p>
+        <input id="purchasevalue" name="purchasevalue" placeholder="Value in @Currency" @bind="@PrivateValue" @bind:event="oninput" />
+        <p class="center"><b>Present Value</b></p>
+        <input id="presentvalue" name="presentvalue" placeholder="Value in @Currency" @bind="@PresentValue" @bind:event="oninput" />
         <p class="center"><b>Notes</b></p>
+        <textarea id="privatenotes" name="privatenotes" @bind="@PrivateNotes" @bind:event="oninput"></textarea>
+        <button @onclick="@Y2">Add Asset</button>
     </div>
-    <button>Add Asset</button>
+    <button @onclick="@X1">Clear Form Fields</button>
 </div>
 <div class="flexy" hidden="@C2">
     <h2>Business Assets</h2>
+    <table>
+        <tr>
+            <th>Asset Name</th>
+            <th>Purchase Date</th>
+            <th>Purchase Value</th>
+            <th>Monthly Depreciation</th>
+            <th>Notes</th>
+        </tr>
+        @foreach (var businessasset in AssetManagement.BusinessAssets)
+        {
+            <tr>
+                <td>@businessasset.Name</td>
+                <td>@businessasset.PurchaseDate</td>
+                <td>@businessasset.Value</td>
+                <td>@businessasset.Depreciation</td>
+                <td>@businessasset.Notes</td>
+            </tr>
+        }
+    </table>
 </div>
 
 <div class="flexy" hidden="@C3">
     <h2>Private Assets</h2>
+    <table>
+        <tr>
+            <th>Asset Name</th>
+            <th>Purchase Date</th>
+            <th>Purchase Value</th>
+            <th>Present Value</th>
+            <th>Notes</th>
+        </tr>
+        @foreach (var privateasset in AssetManagement.PrivateAssets)
+        {
+            <tr>
+                <td>@privateasset.Name</td>
+                <td>@privateasset.PurchaseDate</td>
+                <td>@privateasset.Value</td>
+                <td>@privateasset.PresentValue</td>
+                <td>@privateasset.Notes</td>
+            </tr>
+        }
+    </table>
 </div>
 
 <div class="flexy">
     <select id="mode" name="mode" @onchange="@CM">
         <option value="1">Edit Assets</option>
         <option value="2">View Business Assets</option>
-        <option value="3">View Private Assets</option>
+        <option value="3" selected>View Private Assets</option>
     </select>
 </div>
 @code {
-
+    static public string AssetName { get; set; } = "";
+    static public DateOnly PurchaseDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+    static public string Depreciation { get; set; } = "";
+    static public string BusinessValue { get; set; } = "";
+    static public string BusinessNotes { get; set; } = "";
+    static public string PrivateValue { get; set; } = "";
+    static public string PresentValue { get; set; } = "";
+    static public string PrivateNotes { get; set; } = "";
+    static public List<BusinessAsset> BusinessAssets { get; set; } = new();
+    static public List<PrivateAsset> PrivateAssets { get; set; } = new();
 
     static public bool Z2 { get; set; } = true;
     static public bool Z1 { get; set; } = true;
 
+    static public string H2 { get; set; } = "";
+    static public string H1 { get; set; } = "";
+    static public string Currency { get; set; } = "$";
     static public string M { get; set; } = "";
     static public bool C3 { get; set; } = true;
     static public bool C2 { get; set; } = true;
     static public bool C1 { get; set; } = true;
+
+    static public void X1()
+    {
+        PrivateNotes = "";
+        PresentValue = "";
+        PrivateValue = "";
+        BusinessNotes = "";
+        BusinessValue = "";
+        Depreciation = "";
+        PurchaseDate = DateOnly.FromDateTime(DateTime.Now);
+        AssetName = "";
+        H1 = "All Fields Cleared.";
+    }
+
+    static public void Y2()
+    {
+        if (AssetName != "")
+        {
+            PrivateAssets.Add(new PrivateAsset(AssetName, PurchaseDate, PrivateValue, PresentValue, PrivateNotes));
+            H1 = "Asset added.";
+        }
+        else
+        {
+            H1 = "Please give the asset a name.";
+        }
+    }
+
+    static public void Y1()
+    {
+        if (AssetName != "")
+        {
+            BusinessAssets.Add(new BusinessAsset(AssetName, PurchaseDate, BusinessValue, Depreciation, BusinessNotes));
+            H1 = "Asset added.";
+        }
+        else
+        {
+            H1 = "Please give the asset a name.";
+        }
+    }
+
+    static public void Cat(ChangeEventArgs e)
+    {
+        if (e.Value is not null)
+        {
+            switch((string)e.Value)
+            {
+                case "privateassets":
+                    H2 = "Selected: <b>Private Assets</b>.";
+                    Z1 = true;
+                    Z2 = false;
+                    break;
+                case "businessassets":
+                    H2 = "Selected: <b>Business Assets</b>.";
+                    Z2 = true;
+                    Z1 = false;
+                    break;
+                default:
+                    H2 = "";
+                    break;
+            }
+        }
+    }
 
     static public void CM(ChangeEventArgs e)
     {
@@ -70,10 +199,47 @@
         }
     }
 
+    public class BusinessAsset
+    {
+        public BusinessAsset(string _name, DateOnly _purchasedate, string _value, string _depreciation, string _notes)
+        {
+            Name = _name;
+            PurchaseDate = _purchasedate;
+            Value = _value;
+            Depreciation = _depreciation;
+            Notes = _notes;
+        }
+
+        public string Name { get; set; }
+        public DateOnly PurchaseDate { get; set; }
+        public string Value { get; set; }
+        public string Depreciation { get; set; }
+        public string Notes { get; set; }
+    }
+
+    public class PrivateAsset
+    {
+        public PrivateAsset(string _name, DateOnly _purchasedate, string _value, string _presentvalue, string _notes)
+        {
+            Name = _name;
+            PurchaseDate = _purchasedate;
+            Value = _value;
+            PresentValue = _presentvalue;
+            Notes = _notes;
+        }
+
+        public string Name { get; set; }
+        public DateOnly PurchaseDate { get; set; }
+        public string Value { get; set; }
+        public string PresentValue { get; set; }
+        public string Notes { get; set; }
+    }
+
     protected override void OnInitialized()
     {
-        C3 = true;
+        Currency = User.Currency;
+        C1 = true;
         C2 = true;
-        C1 = false;
+        C3 = false;
     }
 }
