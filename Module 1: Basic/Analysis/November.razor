@@ -181,18 +181,35 @@
     static public string Description { get; set; } = "";
     static public string Title { get; set; } = "";
 
-    static public string H4 { get; set; } = "";
     static public string H3 { get; set; } = "";
     static public string H2 { get; set; } = "";
     static public bool Z2 { get; set; } = false;
     static public bool Z1 { get; set; } = true;
     static public string H1 { get; set; } = "";
-    static public string After { get; set; } = "";
-    static public string Before { get; set; } = "";
     static public string Currency { get; set; } = "";
     static public string M { get; set; } = "";
     static public bool C2 { get; set; } = true;
     static public bool C1 { get; set; } = true;
+
+    static public void CM(ChangeEventArgs e)
+    {
+        M = "";
+        if (e.Value is not null)
+        {
+            M = (string)e.Value;
+            switch (M)
+            {
+                case "1":
+                    C2 = true;
+                    C1 = false;
+                    break;
+                case "2":
+                    C2 = false;
+                    C1 = true;
+                    break;
+            }
+        }
+    }
 
     static public void IS(ChangeEventArgs e)
     {
@@ -287,31 +304,9 @@
         }
     }
 
-    static public void CM(ChangeEventArgs e)
-    {
-        M = "";
-        if (e.Value is not null)
-        {
-            M = (string)e.Value;
-            switch (M)
-            {
-                case "1":
-                    C2 = true;
-                    C1 = false;
-                    break;
-                case "2":
-                    C2 = false;
-                    C1 = true;
-                    break;
-            }
-        }
-    }
-
     protected override void OnInitialized()
     {
         Budget = FinancialEvaluation.MonthlyBudget;
-        After = User.After;
-        Before = User.Before;
         Currency = User.Currency;
         C1 = true;
         C2 = false;
