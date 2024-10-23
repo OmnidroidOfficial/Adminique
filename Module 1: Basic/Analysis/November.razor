@@ -37,8 +37,8 @@
     <p class="center"><b>Include Savings in Budget</b></p>
     <select @onchange="@IS">
         <option value="">-- Select an Option</option>
-        <option value="Y">Yes</option>
-        <option value="N">No</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
     </select>
     <h3 class="center">Planned Outgoing Expenses</h3>
     <table>
@@ -127,6 +127,10 @@
             <td>@Savings</td>
         </tr>
         <tr>
+            <td>Savings in Budget?</td>
+            <td>@IncludeSavings</td>
+        </tr>
+        <tr>
             <td>Savings Objective</td>
             <td>@Objective</td>
         </tr>
@@ -183,8 +187,6 @@
 
     static public string H3 { get; set; } = "";
     static public string H2 { get; set; } = "";
-    static public bool Z2 { get; set; } = false;
-    static public bool Z1 { get; set; } = true;
     static public string H1 { get; set; } = "";
     static public string Currency { get; set; } = "";
     static public string M { get; set; } = "";
@@ -216,10 +218,6 @@
         if (e.Value is not null)
         {
             IncludeSavings = (string)e.Value;
-            // switch (IncludeSavings)
-            // {
-            //     
-            // }
         }
     }
 
