@@ -1,0 +1,315 @@
+@page "/december"
+<PageTitle>December &raquo; The Administrator</PageTitle>
+<div class="flexy" hidden="@C1">
+    <h2>Thought Capital</h2>
+    <p class="accent">In 2025, I would like to accomplish...</p>
+    <ul>
+        <li>
+            <p>
+                <b>Subject</b><br />
+                Description
+            </p>
+        </li>
+        @foreach (var TC in December.DTC)
+        {
+            <li>
+                <p>
+                    <b>@TC.Subject</b><br />
+                    @TC.Description
+                </p>
+            </li>
+        }
+        <li>
+            <p>
+                <b>@Subject</b><br />
+                @Description
+            </p>
+        </li>
+    </ul>
+    <p class="center"><b>Subject</b></p>
+    <input id="subject" name="subject" type="text" placeholder="E.g. 'Friends and Family'" @bind=@Subject @bind:event="oninput" />
+    <p class="center"><b>Description</b></p>
+    <textarea rows="5" placeholder="E.g. 'I would like to spend more time with my friends and family.'" @bind=@Description @bind:event="oninput"></textarea>
+    <p class="center small">@H1</p>
+    <button @onclick="@AddTC">Add</button>
+    <h2>Financial Evaluation</h2>
+    <p class="center"><b>Remaining Balance</b></p>
+    <p class="center">What was your total remaining balance on the 1<sup>st</sup> of December?</p>
+    <input id="balance" name="balance" type="text" placeholder="Remaining balance in @Currency" @bind=@Balance @bind:event="oninput" />
+    <p class="center"><b>Present Savings</b></p>
+    <p class="center">How much money do you currently own in savings?</p>
+    <input id="savings" name="savings" type="text" placeholder="Present savings in @Currency" @bind=@Savings @bind:event="oninput" />
+    <p class="center"><b>Include Savings in Budget</b></p>
+    <select @onchange="@IS">
+        <option value="">-- Select an Option</option>
+        <option value="Y">Yes</option>
+        <option value="N">No</option>
+    </select>
+    <h3 class="center">Planned Outgoing Expenses</h3>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Value in @Currency</th>
+            <th>Date</th>
+        </tr>
+        @foreach (var O in December.DO)
+        {
+            <tr>
+                <td>@O.Name</td>
+                <td>@O.Value</td>
+                <td>@O.Date</td>
+            </tr>
+        }
+    </table>
+    <p class="center"><b>Name of Expense</b></p>
+    <input id="do_name" name="do_name" type="text" placeholder="Name of outgoing expense" @bind=@DO_Name @bind:event="oninput" />
+    <p class="center"><b>Value of Expense</b></p>
+    <input id="do_value" name="do_value" type="text" placeholder="Value of outgoing expense in @Currency" @bind=@DO_Value @bind:event="oninput" />
+    <p class="center"><b>Date of Expense</b></p>
+    <p class="center small">Assign a date to @DO_Name. For example the date on which the bill is expected.</p>
+    <input id="no_date" name="no_date" type="date" @bind=@DO_Date @bind:event="oninput" />
+    <p class="center small">@H3</p>
+    <button @onclick="@AddDO">Add</button>
+    <h3 class="center">Planned Incoming Expenses</h3>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Value in @Currency</th>
+            <th>Date</th>
+        </tr>
+        @foreach (var I in December.DI)
+        {
+            <tr>
+                <td>@I.Name</td>
+                <td>@I.Value</td>
+                <td>@I.Date</td>
+            </tr>
+        }
+    </table>
+    <p class="center"><b>Name of Expense</b></p>
+    <input id="di_name" name="di_name" type="text" placeholder="Name of incoming expense" @bind=@DI_Name @bind:event="oninput" />
+    <p class="center"><b>Value of Expense</b></p>
+    <input id="di_value" name="di_value" type="text" placeholder="Value of incoming expense in @Currency" @bind=@DI_Value @bind:event="oninput" />
+    <p class="center"><b>Date of Expense</b></p>
+    <p class="center small">Assign a date to @DI_Name. For example the date on which the payment is submitted.</p>
+    <input id="di_date" name="di_date" type="date" @bind=@DI_Date @bind:event="oninput" />
+    <p class="center small">@H2</p>
+    <button @onclick="@AddDI">Add</button>
+    <p class="center"><b>Savings Objective</b><br />At the end of this month, I intend to have in savings...</p>
+    <input id="savings" name="savings" type="text" placeholder="Savings objective in @Currency" @bind=@Objective @bind:event="oninput" />
+</div>
+<div class="flexy" hidden="@C2">
+    <h2>Thought Capital</h2>
+    <p class="accent">In 2025, I would like to accomplish the following:</p>
+    <ul>
+        @foreach (var TC in December.DTC)
+        {
+            <li>
+                <p>
+                    <b>@TC.Subject</b><br />
+                    @TC.Description
+                </p>
+            </li>
+        }
+    </ul>
+    <h2>Financial Evaluation</h2>
+    <table>
+        <tr>
+            <th>Subject</th>
+            <th>Value in @Currency</th>
+        </tr>
+        <tr>
+            <td>Monthly Budget</td>
+            <td>@Budget</td>
+        </tr>
+        <tr>
+            <td>Balance</td>
+            <td>@Balance</td>
+        </tr>
+        <tr>
+            <td>Savings</td>
+            <td>@Savings</td>
+        </tr>
+        <tr>
+            <td>Savings in Budget?</td>
+            <td>@IncludeSavings</td>
+        </tr>
+        <tr>
+            <td>Savings Objective</td>
+            <td>@Objective</td>
+        </tr>
+        <tr>
+            <th>-- Outgoing Expenses --</th>
+            <th> </th>
+        </tr>
+        @foreach (var OE in December.DO)
+        {
+            <tr>
+                <td>@OE.Name</td>
+                <td>@OE.Value</td>
+            </tr>
+        }
+        <tr>
+            <th>-- Incoming Expenses --</th>
+            <th> </th>
+        </tr>
+        @foreach (var IE in December.DI)
+        {
+            <tr>
+                <td>@IE.Name</td>
+                <td>@IE.Value</td>
+            </tr>
+        }
+    </table>
+
+</div>
+<div class="flexy">
+    <select id="mode" name="mode" @onchange="@CM">
+        <option value="1">Edit</option>
+        <option value="2" selected>View</option>
+    </select>
+</div>
+@code {
+    static public string Budget { get; set; } = "";
+
+    static public string Objective { get; set; } = "";
+    static public List<DecemberIncoming> DI { get; set; } = new();
+    static public DateOnly DI_Date { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+    static public string DI_Value { get; set; } = "";
+    static public string DI_Name { get; set; } = "";
+    static public List<DecemberOutgoing> DO { get; set; } = new();
+    static public DateOnly DO_Date { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+    static public string DO_Value { get; set; } = "";
+    static public string DO_Name { get; set; } = "";
+    static public string IncludeSavings { get; set; } = "No";
+    static public string Savings { get; set; } = "";
+    static public string Balance { get; set; } = "";
+    static public List<ThoughtCapital> DTC { get; set; } = new();
+    static public string Description { get; set; } = "";
+    static public string Subject { get; set; } = "";
+
+    static public string H3 { get; set; } = "";
+    static public string H2 { get; set; } = "";
+    static public string H1 { get; set; } = "";
+    static public string Currency { get; set; } = "";
+    static public string M { get; set; } = "";
+    static public bool C2 { get; set; } = false;
+    static public bool C1 { get; set; } = false;
+
+    static public void CM(ChangeEventArgs e)
+    {
+        M = "";
+        if (e.Value is not null)
+        {
+            M = (string)e.Value;
+            switch (M)
+            {
+                case "1":
+                    C2 = true;
+                    C1 = false;
+                    break;
+                case "2":
+                    C2 = false;
+                    C1 = true;
+                    break;
+            }
+        }
+    }
+
+    static public void IS(ChangeEventArgs e)
+    {
+        if (e.Value is not null)
+        {
+            IncludeSavings = (string)e.Value;
+        }
+    }
+
+    public class DecemberIncoming
+    {
+        public DecemberIncoming(string _name, string _value, DateOnly _date)
+        {
+            Name = _name;
+            Value = _value;
+            Date = _date;
+        }
+
+        public string Name { get; set; }
+        public string Value { get; set; }
+        public DateOnly Date { get; set; }
+    }
+
+    static public void AddDI()
+    {
+        if (DI_Name != "")
+        {
+            H2 = "";
+            DI.Add(new DecemberIncoming(DI_Name, DI_Value, DI_Date));
+        }
+        else
+        {
+            H2 = "Please give the incoming expense a name.";
+        }
+    }
+
+    public class DecemberOutgoing
+    {
+        public DecemberOutgoing(string _name, string _value, DateOnly _date)
+        {
+            Name = _name;
+            Value = _value;
+            Date = _date;
+        }
+
+        public string Name { get; set; }
+        public string Value { get; set; }
+        public DateOnly Date { get; set; }
+    }
+
+    static public void AddDO()
+    {
+        if (DO_Name != "")
+        {
+            H3 = "";
+            DO.Add(new DecemberOutgoing(DO_Name, DO_Value, DO_Date));
+        }
+        else
+        {
+            H3 = "Please give the outgoing expense a name.";
+        }
+    }
+
+    public class ThoughtCapital
+    {
+        public ThoughtCapital(string _subject, string _description)
+        {
+            Subject = _subject;
+            Description = _description;
+        }
+
+        public string Subject { get; set; }
+        public string Description { get; set; }
+    }
+
+    static public void AddTC()
+    {
+        if (Subject != "")
+        {
+            H1 = "";
+            DTC.Add(new ThoughtCapital(Subject, Description));
+            Subject = "";
+            Description = "";
+        }
+        else
+        {
+            H1 = "Please assign a subject to your item of thought capital.";
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        Budget = FinancialEvaluation.MonthlyBudget;
+        Currency = User.Currency;
+        C1 = true;
+        C2 = false;
+    }
+}
