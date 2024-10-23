@@ -42,8 +42,8 @@
     <p class="center"><b>Include Savings in Budget</b></p>
     <select @onchange="@IS">
         <option value="">-- Select an Option</option>
-        <option value="Y">Yes</option>
-        <option value="N">No</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
     </select>
     <h3 class="center">Planned Outgoing Expenses</h3>
     <table>
@@ -67,7 +67,7 @@
     <input id="do_value" name="do_value" type="text" placeholder="Value of outgoing expense in @Currency" @bind=@DO_Value @bind:event="oninput" />
     <p class="center"><b>Date of Expense</b></p>
     <p class="center small">Assign a date to @DO_Name. For example the date on which the bill is expected.</p>
-    <input id="no_date" name="no_date" type="date" @bind=@DO_Date @bind:event="oninput" />
+    <input id="do_date" name="do_date" type="date" @bind=@DO_Date @bind:event="oninput" />
     <p class="center small">@H3</p>
     <button @onclick="@AddDO">Add</button>
     <h3 class="center">Planned Incoming Expenses</h3>
