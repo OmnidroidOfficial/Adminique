@@ -1,0 +1,391 @@
+@page "/january"
+<PageTitle>January &raquo; The Administrator</PageTitle>
+<div class="flexy" hidden="@C1">
+    <h2>Thought Capital</h2>
+    <h3>Introduction</h3>
+    <p class="center">Introduce the context of your aspirations for 2025. Use your personal motivation and/or what you have learned in 2024.</p>
+    <textarea id="introduction" name="introduction" placeholder="E.g.: 'In 2024 I have gone through a lot and I have learned a lot. I will apply the lessons that I have learned to my aspirations for 2025.'" @bind=@Introduction @bind:event="oninput"></textarea>
+    <h3>3 Aspirations</h3>
+    <p class="center">Divide your ultimate 2025 into 3 aspirations. Give each aspiration a name that describes its subject.</p>
+    <p class="center"><b>Aspiration 1</b></p>
+    <input id="aspirationone" name="aspirationone" type="text" placeholder="E.g. Financial Security" @bind=@A1 @bind:event="oninput"/>
+    <p class="center"><b>Aspiration 2</b></p>
+    <input id="aspirationone" name="aspirationtwo" type="text" placeholder="E.g. University Studies" @bind=@A2 @bind:event="oninput"/>
+    <p class="center"><b>Aspiration 3</b></p>
+    <input id="aspirationone" name="aspirationthree" type="text" placeholder="E.g. Pole Dancing" @bind=@A3 @bind:event="oninput"/>
+    <h3>Objectives per aspiration</h3>
+    <p class="center">Add the objectives that must be completed to complete each aspiration to the list. (List in sequential order.)</p>
+    <h4>@A1</h4>
+    <p class="small">Aspiration 1</p>
+    <ol>
+        @foreach (var A1 in January.AOne)
+        {
+            <li>
+                @A1.Objective
+            </li>
+        }
+    </ol>
+    <textarea id="o_aspirationone" name="o_aspirationone" rows="2" placeholder="E.g. 'Update curriculum vitae.'" @bind=@O1 @bind:event="oninput"></textarea>
+    <button @onclick="@AddA1">Add</button>
+    <h4>@A2</h4>
+    <p class="small">Aspiration 2</p>
+    <ol>
+        @foreach (var A2 in January.ATwo)
+        {
+            <li>
+                @A2.Objective
+            </li>
+        }
+    </ol>
+    <textarea id="o_aspirationtwo" name="o_aspirationone" rows="2" placeholder="E.g. 'Apply for course.'" @bind=@O2 @bind:event="oninput"></textarea>
+    <button @onclick="@AddA2">Add</button>
+    <h4>@A3</h4>
+    <p class="small">Aspiration 3</p>
+    <ol>
+        @foreach (var A3 in January.AThree)
+        {
+            <li>
+                @A3.Objective
+            </li>
+        }
+    </ol>
+    <textarea id="o_aspirationthree" name="o_aspirationthree" rows="2" placeholder="E.g. 'Purchase a dance pole.'" @bind=@O3 @bind:event="oninput"></textarea>
+    <button @onclick="AddA3">Add</button>
+    <h2>Financial Evaluation</h2>
+    <p class="center"><b>Remaining Balance</b></p>
+    <p class="center">What was your total remaining balance on the 1<sup>st</sup> of January?</p>
+    <input id="balance" name="balance" type="text" placeholder="Remaining balance in @Currency" @bind=@Balance @bind:event="oninput" />
+    <p class="center"><b>Present Savings</b></p>
+    <p class="center">How much money do you currently own in savings?</p>
+    <input id="savings" name="savings" type="text" placeholder="Present savings in @Currency" @bind=@Savings @bind:event="oninput" />
+    <p class="center"><b>Include Savings in Budget</b></p>
+    <select @onchange="@IS">
+        <option value="">-- Select an Option</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+    </select>
+    <h3 class="center">Planned Outgoing Expenses</h3>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Value in @Currency</th>
+            <th>Date</th>
+        </tr>
+        @foreach (var O in January.JO)
+        {
+            <tr>
+                <td>@O.Name</td>
+                <td>@O.Value</td>
+                <td>@O.Date</td>
+            </tr>
+        }
+    </table>
+    <p class="center"><b>Name of Expense</b></p>
+    <input id="jo_name" name="jo_name" type="text" placeholder="Name of outgoing expense" @bind=@JO_Name @bind:event="oninput" />
+    <p class="center"><b>Value of Expense</b></p>
+    <input id="jo_value" name="jo_value" type="text" placeholder="Value of outgoing expense in @Currency" @bind=@JO_Value @bind:event="oninput" />
+    <p class="center"><b>Date of Expense</b></p>
+    <p class="center small">Assign a date to @JO_Name. For example the date on which the bill is expected.</p>
+    <input id="jo_date" name="jo_date" type="date" @bind=@JO_Date @bind:event="oninput" />
+    <p class="center small">@H3</p>
+    <button @onclick="@AddJO">Add</button>
+    <h3 class="center">Planned Incoming Expenses</h3>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Value in @Currency</th>
+            <th>Date</th>
+        </tr>
+        @foreach (var I in January.JI)
+        {
+            <tr>
+                <td>@I.Name</td>
+                <td>@I.Value</td>
+                <td>@I.Date</td>
+            </tr>
+        }
+    </table>
+    <p class="center"><b>Name of Expense</b></p>
+    <input id="ji_name" name="ji_name" type="text" placeholder="Name of incoming expense" @bind=@JI_Name @bind:event="oninput" />
+    <p class="center"><b>Value of Expense</b></p>
+    <input id="ji_value" name="ji_value" type="text" placeholder="Value of incoming expense in @Currency" @bind=@JI_Value @bind:event="oninput" />
+    <p class="center"><b>Date of Expense</b></p>
+    <p class="center small">Assign a date to @JI_Name. For example the date on which the payment is submitted.</p>
+    <input id="ji_date" name="ji_date" type="date" @bind=@JI_Date @bind:event="oninput" />
+    <p class="center small">@H2</p>
+    <button @onclick="@AddJI">Add</button>
+    <p class="center"><b>Savings Objective</b><br />At the end of this month, I intend to have in savings...</p>
+    <input id="savings" name="savings" type="text" placeholder="Savings objective in @Currency" @bind=@Objective @bind:event="oninput" />
+</div>
+<div class="flexy" hidden="@C2">
+    <h2>Thought Capital</h2>
+    <h3>New Year's Resolution</h3>
+    <p class="accent">@Introduction</p>
+    <p class="center"><b>In 2025, I will achieve:</b></p>
+    <h4>@A1</h4>
+    <ol>
+        @foreach (var A1 in January.AOne)
+        {
+            <li>
+                @A1.Objective
+            </li>
+        }
+    </ol>
+    <h4>@A2</h4>
+    <ol>
+        @foreach (var A2 in January.ATwo)
+        {
+            <li>
+                @A2.Objective
+            </li>
+        }
+    </ol>
+    <h4>@A3</h4>
+    <ol>
+        @foreach (var A3 in January.AThree)
+        {
+            <li>
+                @A3.Objective
+            </li>
+        }
+    </ol>
+    <h2>Financial Evaluation</h2>
+    <table>
+        <tr>
+            <th>Subject</th>
+            <th>Value in @Currency</th>
+        </tr>
+        <tr>
+            <td>Monthly Budget</td>
+            <td>@Budget</td>
+        </tr>
+        <tr>
+            <td>Balance</td>
+            <td>@Balance</td>
+        </tr>
+        <tr>
+            <td>Savings</td>
+            <td>@Savings</td>
+        </tr>
+        <tr>
+            <td>Savings in Budget?</td>
+            <td>@IncludeSavings</td>
+        </tr>
+        <tr>
+            <td>Savings Objective</td>
+            <td>@Objective</td>
+        </tr>
+        <tr>
+            <th>-- Outgoing Expenses --</th>
+            <th> </th>
+        </tr>
+        @foreach (var OE in January.JO)
+        {
+            <tr>
+                <td>@OE.Name</td>
+                <td>@OE.Value</td>
+            </tr>
+        }
+        <tr>
+            <th>-- Incoming Expenses --</th>
+            <th> </th>
+        </tr>
+        @foreach (var IE in January.JI)
+        {
+            <tr>
+                <td>@IE.Name</td>
+                <td>@IE.Value</td>
+            </tr>
+        }
+    </table>
+
+</div>
+<div class="flexy">
+    <select id="mode" name="mode" @onchange="@CM">
+        <option value="1">Edit</option>
+        <option value="2" selected>View</option>
+    </select>
+</div>
+@code {
+    static public string Budget { get; set; } = "";
+
+    static public string Objective { get; set; } = "";
+    static public List<JanuaryIncoming> JI { get; set; } = new();
+    static public DateOnly JI_Date { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+    static public string JI_Value { get; set; } = "";
+    static public string JI_Name { get; set; } = "";
+    static public List<JanuaryOutgoing> JO { get; set; } = new();
+    static public DateOnly JO_Date { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+    static public string JO_Value { get; set; } = "";
+    static public string JO_Name { get; set; } = "";
+    static public string IncludeSavings { get; set; } = "No";
+    static public string Savings { get; set; } = "";
+    static public string Balance { get; set; } = "";
+
+    static public List<AspirationThree> AThree { get; set; } = new();
+    static public string O3 {get; set;} = "";
+    static public List<AspirationTwo> ATwo { get; set; } = new();
+    static public string O2 { get; set; } = "";
+    static public List<AspirationOne> AOne { get; set; } = new();
+    static public string O1 { get; set; } = "";
+    static public string A3 { get; set; } = "";
+    static public string A2 { get; set; } = "";
+    static public string A1 { get; set; } = "";
+    static public string Introduction { get; set; } = "";
+
+    static public string H3 { get; set; } = "";
+    static public string H2 { get; set; } = "";
+    static public string H1 { get; set; } = "";
+    static public string Currency { get; set; } = "";
+    static public string M { get; set; } = "";
+    static public bool C2 { get; set; } = false;
+    static public bool C1 { get; set; } = false;
+
+    static public void CM(ChangeEventArgs e)
+    {
+        M = "";
+        if (e.Value is not null)
+        {
+            M = (string)e.Value;
+            switch (M)
+            {
+                case "1":
+                    C2 = true;
+                    C1 = false;
+                    break;
+                case "2":
+                    C2 = false;
+                    C1 = true;
+                    break;
+            }
+        }
+    }
+
+    static public void IS(ChangeEventArgs e)
+    {
+        if (e.Value is not null)
+        {
+            IncludeSavings = (string)e.Value;
+        }
+    }
+
+    public class JanuaryIncoming
+    {
+        public JanuaryIncoming(string _name, string _value, DateOnly _date)
+        {
+            Name = _name;
+            Value = _value;
+            Date = _date;
+        }
+
+        public string Name { get; set; }
+        public string Value { get; set; }
+        public DateOnly Date { get; set; }
+    }
+
+    static public void AddJI()
+    {
+        if (JI_Name != "")
+        {
+            H2 = "";
+            JI.Add(new JanuaryIncoming(JI_Name, JI_Value, JI_Date));
+        }
+        else
+        {
+            H2 = "Please give the incoming expense a name.";
+        }
+    }
+
+    public class JanuaryOutgoing
+    {
+        public JanuaryOutgoing(string _name, string _value, DateOnly _date)
+        {
+            Name = _name;
+            Value = _value;
+            Date = _date;
+        }
+
+        public string Name { get; set; }
+        public string Value { get; set; }
+        public DateOnly Date { get; set; }
+    }
+
+    static public void AddJO()
+    {
+        if (JO_Name != "")
+        {
+            H3 = "";
+            JO.Add(new JanuaryOutgoing(JO_Name, JO_Value, JO_Date));
+        }
+        else
+        {
+            H3 = "Please give the outgoing expense a name.";
+        }
+    }
+
+    public class AspirationThree
+    {
+        public AspirationThree(string _objective)
+        {
+            Objective = _objective;
+        }
+
+        public string Objective { get; set; }
+    }
+
+    static public void AddA3()
+    {
+        if (O3 != "")
+        {
+            AThree.Add(new AspirationThree(O3));
+            O3 = "";
+        }
+    }
+
+    public class AspirationTwo
+    {
+        public AspirationTwo(string _objective)
+        {
+            Objective = _objective;
+        }
+
+        public string Objective { get; set; }
+    }
+
+    static public void AddA2()
+    {
+        if (O2 != "")
+        {
+            ATwo.Add(new AspirationTwo(O2));
+            O2 = "";
+        }
+    }
+
+    public class AspirationOne
+    {
+        public AspirationOne(string _objective)
+        {
+            Objective = _objective;
+        }
+
+        public string Objective { get; set; }
+    }
+
+    static public void AddA1()
+    {
+        if (O1 != "")
+        {
+            AOne.Add(new AspirationOne(O1));
+            O1 = "";
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        Budget = FinancialEvaluation.MonthlyBudget;
+        Currency = User.Currency;
+        C1 = true;
+        C2 = false;
+    }
+}
+
