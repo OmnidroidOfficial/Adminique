@@ -1,20 +1,20 @@
 @page "/administration-of-hours"
-
+<PageTitle>Administration of Hours &raquo; The Administrator</PageTitle>
 <div class="flexy" hidden="@C1">
     <h2>Edit Administration of Hours</h2>
     <p class="center small">@Help</p>
-    <input id="Title" name="Title" type="text" placeholder="Title" @bind="@Title" @bind:event="oninput"/>
+    <input id="Name" name="Name" type="text" placeholder="Name" @bind="@Name" @bind:event="oninput"/>
     <input id="Date" name="Date" type="date" placeholder="Date" @bind="@Date" @bind:event="oninput" />
-    <select onchange="@Cat">
+    <select @onchange="@Cat">
         <option value="">-- Select a Category --</option>
-        <option value="Business">Business</option>
-        <option value="Study">Study</option>
+        <option value="Professional">Professional</option>
+        <option value="Studying">Studying</option>
+        <option value="Travel">Travel</option>
         <option value="Fitness">Fitness</option>
         <option value="Family">Family</option>
-        <option value="Travel">Travel</option>
         <option value="Other">Other</option>
     </select>
-    <p class="center">Describe @Title,</p>
+    <p class="center">Describe @Name,</p>
     <p class="center">@Category hours on @Date.</p>
     <textarea id="Description" name="Description" @bind="@Description" @bind:event="oninput"></textarea>
     <p class="center">Total hours worked (excluding breaks):</p>
@@ -23,8 +23,8 @@
     <input id="StartTime" name="StartTime" type="time" placeholder="Start Time" @bind="@StartTime" @bind:event="oninput" />
     <p class="center">End time:</p>
     <input id="EndTime" name="EndTime" type="time" placeholder="End Time" @bind="@EndTime" @bind:event="oninput" />
-    <button onclick="@Add">Add</button>
-    <button onclick="@Clear">Clear</button>
+    <button @onclick="@Add">Add</button>
+    <button @onclick="@Clear">Clear</button>
 </div>
 
 <div class="flexy" hidden="@C2">
@@ -33,7 +33,7 @@
 
     <table>
         <tr>
-            <th>Title</th>
+            <th>Name</th>
             <th>Date</th>
             <th>Category</th>
             <th>Description</th>
@@ -69,7 +69,7 @@
     static public string Description { get; set; } = "";
     static public string Category { get; set; } = "";
     static public DateOnly Date { get; set; } = DateOnly.FromDateTime(DateTime.Now);
-    static public string Title { get; set; } = "";
+    static public string Name { get; set; } = "";
     static public List<HourlyAdministration> AOH { get; set; } = new();
 
     static public string Help { get; set; } = "";
@@ -104,14 +104,22 @@
         Description = "";
         Category = "";
         Date = DateOnly.FromDateTime(DateTime.Now);
-        Title = "";
+        Name = "";
         Help = "All fields are cleared.";
     }
 
     static public void Add()
     {
-        AOH.Add(new HourlyAdministration(Title, Date, Category, StartTime, EndTime, Hours, Description));
-        Help = "Your entry is added.";
+        if (Name != "")
+        {
+            Help = "";
+            AOH.Add(new HourlyAdministration(Name, Date, Category, StartTime, EndTime, Hours, Description));
+            Help = "Your entry is added.";
+        }
+        else
+        {
+            Help = "Please enter a name.";
+        }
     }
 
     static public void Cat(ChangeEventArgs e)
