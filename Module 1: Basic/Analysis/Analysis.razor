@@ -1,35 +1,71 @@
 @page "/analysis"
 @inject NavigationManager NM
+<PageTitle>The Administrator</PageTitle>
 <div class="flexy">
-    <button @onclick="@X1">Assets</button><br/>
-    <button @onclick="@X2">November</button>
-    <button @onclick="@X3">December</button>
-    <button @onclick="@X4">January</button>
+    <button @onclick="@X2" hidden="@C2">November</button>
+    <button @onclick="@X3" hidden="@C3">December</button>
+    <button @onclick="@X4" hidden="@C4">January</button>
 </div>
 
 @code {
+    static public bool C4 { get; set; } = true;
+    static public bool C3 { get; set; } = true;
+    static public bool C2 { get; set; } = true;
 
     public void X4()
     {
-        UX.PageTitle = "Analysis of January";
+        UX.PageTitle = "Budgeting for January";
         UX.ToMenu = true;
+        NM.NavigateTo("/january");
     }
 
     public void X3()
     {
-        UX.PageTitle = "Analysis of December";
+        UX.PageTitle = "Budgeting for December";
         UX.ToMenu = true;
+        NM.NavigateTo("/december");
     }
 
     public void X2()
     {
-        UX.PageTitle = "Analysis of November";
+        UX.PageTitle = "Budgeting for November";
         UX.ToMenu = true;
+        NM.NavigateTo("/november");
     }
 
-    public void X1()
+    static public void BM()
     {
-        UX.PageTitle = "Analysis of Assets";
-        UX.ToMenu = true;
+        var y = DateTime.Now.ToString("MM");
+        switch  (y)
+        {
+            case "11":
+                C2 = false;
+                C3 = false;
+                C4 = true;
+                break;
+            case "12":
+                C2 = true;
+                C3 = false;
+                C4 = false;
+                break;
+            case "01":
+                C2 = true;
+                C3 = true;
+                C4 = false;
+                break;
+            default:
+                C2 = false;
+                C3 = false;
+                C4 = false;
+                break;
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        C2 = true;
+        C3 = true;
+        C4 = true;
+        BM();
     }
 }
